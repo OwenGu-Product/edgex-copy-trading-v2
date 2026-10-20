@@ -134,7 +134,7 @@
     .control-row { display: flex; gap: 8px; }
     .select, .search { height: 34px; border: 1px solid var(--line); background: var(--surface); color: var(--soft); border-radius: 4px; padding: 0 10px; outline: none; }
     .search { width: 210px; }
-    .market-layout { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    .market-layout { display:grid; grid-template-columns:minmax(0,1fr); gap:14px; align-items:start; }
     .leader-grid-head { min-height:47px; display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
     .market-filter-btn { height:32px; padding:0 12px; border:0; background:transparent; color:var(--muted); border-radius:4px; cursor:pointer; font-size:11px; }
     .market-filter-btn.active { background:var(--surface-3); color:var(--lime); }
@@ -248,6 +248,36 @@
     .field input:focus { border-color:var(--lime-dark); }
     .risk-note { color:var(--muted); font-size:10px; line-height:1.5; padding:10px; background:var(--bg); margin-bottom:14px; }
     .modal-footer { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .quick-trade-modal { width:min(420px,100%); }
+    .quick-market-summary { display:flex; align-items:center; gap:10px; padding:12px; margin-bottom:14px; border:1px solid var(--line); border-radius:5px; background:var(--bg); }
+    .quick-market-summary .token-icon { width:30px; height:30px; flex:0 0 30px; }
+    .quick-market-summary strong { display:block; font-size:13px; }
+    .quick-market-summary small { display:block; margin-top:3px; color:var(--muted); font-size:9px; }
+    .quick-market-price { margin-left:auto; text-align:right; font-variant-numeric:tabular-nums; }
+    .quick-market-price b { display:block; font-size:13px; }
+    .quick-market-price em { display:block; margin-top:3px; color:var(--lime); font-size:9px; font-style:normal; }
+    .quick-order-switch { display:grid; grid-template-columns:1fr 1fr; gap:4px; padding:3px; margin-bottom:14px; border-radius:5px; background:var(--bg); }
+    .quick-order-btn { height:34px; border:0; border-radius:3px; background:transparent; color:var(--muted); cursor:pointer; }
+    .quick-order-btn.active { color:var(--text); background:var(--surface-3); }
+    .quick-trade-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .quick-trade-field { margin-bottom:13px; }
+    .quick-trade-field label { display:flex; justify-content:space-between; margin-bottom:7px; color:var(--soft); font-size:10px; }
+    .quick-trade-field label span { color:var(--muted); }
+    .quick-trade-field input,.quick-trade-field select { width:100%; height:38px; padding:0 10px; border:1px solid var(--line); border-radius:4px; outline:none; background:var(--bg); color:var(--text); }
+    .quick-trade-field input:focus,.quick-trade-field select:focus { border-color:var(--lime-dark); }
+    .quick-leverage-control { height:38px; display:flex; align-items:center; gap:10px; padding:0 10px; border:1px solid var(--line); border-radius:4px; background:var(--bg); }
+    .quick-leverage-control input[type="range"] { flex:1; width:auto; height:4px; padding:0; border:0; border-radius:2px; appearance:none; background:linear-gradient(to right,var(--lime) 8.16%,#30383c 8.16%); cursor:pointer; }
+    .quick-leverage-control input[type="range"]::-webkit-slider-thumb { width:15px; height:15px; border:2px solid var(--surface); border-radius:50%; appearance:none; background:var(--lime); box-shadow:0 0 0 1px #3d6b4b; }
+    .quick-leverage-control input[type="range"]::-moz-range-thumb { width:13px; height:13px; border:2px solid var(--surface); border-radius:50%; background:var(--lime); }
+    .quick-leverage-control output { width:34px; color:var(--lime); text-align:right; font-size:11px; font-weight:700; font-variant-numeric:tabular-nums; }
+    .quick-amount-options { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin:-5px 0 14px; }
+    .quick-amount-options button { height:28px; border:1px solid var(--line); border-radius:4px; background:transparent; color:var(--muted); cursor:pointer; font-size:10px; }
+    .quick-amount-options button:hover { color:var(--lime); border-color:#3a6548; }
+    .quick-trade-balance { display:flex; justify-content:space-between; margin:-3px 0 14px; color:var(--muted); font-size:9px; }
+    .quick-trade-actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .quick-trade-submit { height:38px; border:0; border-radius:4px; font-weight:700; cursor:pointer; }
+    .quick-trade-submit[data-side="long"] { background:var(--lime); color:#08140c; }
+    .quick-trade-submit[data-side="short"] { background:var(--red); color:#fff; }
     .copy-settings-modal { width:min(760px,100%); max-height:calc(100vh - 32px); display:flex; flex-direction:column; }
     .copy-settings-modal .modal-body { overflow-y:auto; padding:0; }
     .copy-settings-content { padding:18px; }
@@ -266,7 +296,7 @@
     .copy-settings-footer { position:sticky; bottom:0; padding:14px 18px; background:var(--surface); border-top:1px solid var(--line); }
     .toast { position:fixed; z-index:100; bottom:22px; left:50%; transform:translate(-50%,16px); opacity:0; background:#e6fbd0; color:#11170d; padding:10px 14px; border-radius:4px; pointer-events:none; transition:.2s; font-weight:600; font-size:12px; }
     .toast.show { opacity:1; transform:translate(-50%,0); }
-    #market-view.active { display:grid; grid-template-columns:320px minmax(0,1fr); grid-template-rows:auto minmax(0,1fr); height:calc(100vh - 72px); min-height:0; overflow:hidden; align-items:start; align-content:start; }
+    #market-view.active { display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:auto minmax(0,1fr); height:calc(100vh - 72px); min-height:0; overflow:hidden; align-items:start; align-content:start; }
     .figma-feed { grid-column:1; grid-row:1 / span 2; min-height:0; height:100%; overflow-y:auto; overscroll-behavior:contain; padding:20px 14px 28px; background:var(--surface); border-right:1px solid var(--line); }
     .feed-expand { display:none; position:absolute; left:12px; top:20px; z-index:2; }
     #market-view { position:relative; }
@@ -305,7 +335,7 @@
     .related-card b { color:var(--lime); font-size:10px; }
     .related-card strong { display:block; margin:10px 0 6px; font-size:11px; }
     .related-card p { margin:0; color:var(--muted); font-size:10px; line-height:1.5; }
-    #market-view > .page-head { grid-column:2; margin:0; padding:28px 32px 0; align-items:center; }
+    #market-view > .page-head { grid-column:1; margin:0; padding:28px 32px 0; align-items:center; }
     .my-copy-module { min-width:280px; padding:12px 14px; background:var(--surface); border:1px solid var(--line); border-radius:6px; }
     .my-copy-module-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:9px; }
     .my-copy-module-head strong { font-size:12px; }
@@ -314,7 +344,7 @@
     .my-copy-equity small { display:block; color:var(--muted); font-size:9px; margin-bottom:3px; }
     .my-copy-equity b { font-size:18px; font-variant-numeric:tabular-nums; }
     .my-copy-module .overview-actions { margin:0; }
-    #market-view > .market-layout { grid-column:2; padding:0 32px 30px; }
+    #market-view > .market-layout { grid-column:1; padding:0 32px 30px; }
     #market-view.active > .market-layout { height:100%; overflow-y:auto; overscroll-behavior:contain; }
     .market-subnav { display:flex; gap:24px; align-items:center; margin-top:18px; }
     .market-subnav button { border:0; background:transparent; color:var(--muted); padding:0 0 8px; cursor:pointer; }
@@ -450,13 +480,8 @@
     #traderFeedSection .detail-feed-list .news-card:last-child { border-bottom:0; }
     #traderFeedSection .detail-feed-list .news-card > p { font-size:13px; line-height:1.65; }
     #traderFeedSection .detail-feed-list > .news-card:nth-child(n+4) { display:none; }
+    #traderFeedSection .detail-feed-list.expanded > .news-card { display:block; }
     .detail-feed-more { width:100%; height:44px; border:0; border-top:1px solid var(--line); background:transparent; color:var(--lime); cursor:pointer; }
-    .feed-modal { width:min(760px,100%); }
-    .feed-modal .modal-body { padding:0; max-height:min(72vh,720px); overflow-y:auto; }
-    .full-feed-list { display:flex; flex-direction:column; }
-    .full-feed-list .news-card { padding:18px 20px; border:0; border-bottom:1px solid var(--line); border-radius:0; background:transparent; }
-    .full-feed-list .news-card:last-child { border-bottom:0; }
-    .full-feed-list .news-card > p { font-size:13px; line-height:1.65; margin:14px 0; }
     .detail-feed-card[data-source="trade"] .news-author::after { content:"交易动作"; padding:3px 6px; border-radius:3px; background:#202c16; color:var(--lime); font-size:10px; white-space:nowrap; }
     .detail-page-tabs { display:flex; gap:26px; border-bottom:1px solid var(--line); margin:2px 0 14px; }
     .detail-page-tab { padding:13px 0; border:0; background:transparent; color:var(--muted); cursor:pointer; position:relative; }
@@ -500,8 +525,8 @@
     .trader-card.is-hidden, .news-card.is-hidden, .side-feed-card.is-hidden { display:none; }
     button:disabled { opacity:.45; cursor:not-allowed; }
     @media (max-width: 1050px) {
-      #market-view.active { grid-template-columns:260px minmax(0,1fr); }
-      .figma-feed { width:260px; }
+      #market-view.active { grid-template-columns:minmax(0,1fr); }
+      .market-layout { grid-template-columns:1fr; }
       .terminal-grid { grid-template-columns: 190px 1fr; }
       .terminal-grid > aside:last-child { grid-column: 1 / -1; }
       .terminal-grid > aside:last-child .leaders { display:grid; grid-template-columns:repeat(3,1fr); }
@@ -663,17 +688,6 @@
       </section>
 
       <section class="view active" id="market-view">
-        <button class="icon-btn feed-expand" aria-label="展开信息流" title="展开信息流"><i data-lucide="panel-left-open"></i></button>
-        <aside class="figma-feed"><div class="figma-feed-inner">
-          <div class="figma-feed-head"><strong>信息流</strong><button class="icon-btn" style="width:32px;height:32px" aria-label="收起信息流"><i data-lucide="panel-left-close"></i></button></div>
-          <div class="figma-feed-switch"><button>全部信息</button><button class="active">与我相关 · 6</button></div>
-          <div class="figma-feed-filter"><button class="source-filter active" data-source="all">全部来源</button><button class="source-filter" data-source="kol">名人 / KOL</button><button class="source-filter" data-source="news">新闻</button><button class="source-filter" data-source="ai">AI 总结</button></div>
-          <article class="side-feed-card" data-source="kol"><div class="side-feed-author"><span class="avatar green">岚</span><span class="who"><strong>岚序</strong><small>@lanxu_demo · 推特观点</small></span><i data-lucide="ellipsis" style="width:14px"></i></div><p>BTC 回踩 67,400 后承接依然稳健，关注 68,800 附近的流动性。当前维持轻仓多头，不追涨。</p><div class="side-market"><div class="side-market-line"><span class="token-icon">BTC</span><b>BTCUSDC</b><span>68,240.50</span><em>+2.34%</em></div><button class="tradeAction">立即交易</button></div></article>
-          <article class="side-feed-card" data-source="news"><div class="side-feed-author"><span class="avatar blue">讯</span><span class="who"><strong>链讯快报</strong><small>市场资讯 · 新闻</small></span><i data-lucide="ellipsis" style="width:14px"></i></div><p>比特币现货 ETF 连续三个交易日录得净流入，机构资金流向保持活跃，市场关注美盘流动性变化。</p><div class="side-market"><div class="side-market-line"><span class="token-icon">BTC</span><b>BTCUSDC</b><span>68,240.50</span><em>+2.34%</em></div><button class="tradeAction">立即交易</button></div></article>
-          <article class="side-feed-card" data-source="kol"><div class="side-feed-author"><span class="avatar">零</span><span class="who"><strong>零度研究</strong><small>@zero_demo · 推特观点</small></span><i data-lucide="ellipsis" style="width:14px"></i></div><p>ETH 目前处于区间上沿，资金费率有所抬升。我会等待 3,600 一线的确认信号。</p><div class="side-market"><div class="side-market-line"><span class="token-icon">ETH</span><b>ETHUSDC</b><span>3,562.80</span><em>+1.82%</em></div><button class="tradeAction">立即交易</button></div></article>
-          <article class="side-feed-card" data-source="ai"><div class="side-feed-author"><span class="avatar green"><i data-lucide="sparkles" style="width:14px"></i></span><span class="who"><strong>AI 观点与交易关联</strong><small>订阅账户 · 刚刚更新</small></span><span class="source-tag trade">AI</span></div><p>岚序发表 BTC 支撑位观点后 7 分钟开立多仓，交易方向与观点一致。</p><div class="side-market"><div class="side-market-line"><span class="token-icon">BTC</span><b>BTCUSDC</b><span>68,240.50</span><em>+2.34%</em></div><button class="tradeAction">立即交易</button></div></article>
-          <article class="side-feed-card" data-source="ai"><div class="side-feed-author"><span class="avatar blue"><i data-lucide="sparkles" style="width:14px"></i></span><span class="who"><strong>AI 持仓新闻关联</strong><small>与你的 ETH 多仓相关</small></span><span class="source-tag trade">持仓</span></div><p>ETH ETF 净流入创三周新高，可能放大你当前 ETH 多仓的短线波动。</p><div class="side-market"><div class="side-market-line"><span class="token-icon">ETH</span><b>ETHUSDC</b><span>3,684.20</span><em>+2.84%</em></div><button class="tradeAction">立即交易</button></div></article>
-        </div></aside>
         <div class="page-head"><div><h1>发现链上策略</h1><p>自主选择，无需分润</p><div class="market-subnav"><button class="active">全部带单者</button><button>我的关注</button></div></div><aside class="my-copy-module"><div class="my-copy-module-head"><strong>我的跟单</strong><span>跟随交易员 3 人</span></div><div class="my-copy-module-body"><div class="my-copy-equity"><small>跟单账户权益（USDT）</small><b>13,482.60</b></div><div class="overview-actions"><button class="primary-btn equityTransfer">划转</button><button class="secondary-btn" data-go="manage">详情</button></div></div></aside></div>
         <div class="market-layout">
           <section><div class="leader-grid-head"><div class="control-row market-filter-row"><button class="market-filter-btn active" data-market-filter="comprehensive">综合</button><button class="market-filter-btn" data-market-filter="profit">收益额</button><button class="market-filter-btn" data-market-filter="winrate">胜率</button><button class="market-filter-btn" data-market-filter="followers">跟单用户</button><button class="market-filter-btn" data-market-filter="equity">账户权益</button><button class="market-filter-btn" data-market-filter="verified">已认证地址</button></div><div class="control-row"><input class="search" placeholder="搜索名称、地址或推特账户"></div></div><div class="leader-grid">
@@ -726,7 +740,7 @@
     </aside>
   </div>
 
-  <div class="modal-mask" id="feedModal"><div class="modal feed-modal"><div class="modal-head"><h3>Machi Big Brother 全部信息流</h3><button class="icon-btn" id="closeFeedModal" aria-label="关闭"><i data-lucide="x"></i></button></div><div class="modal-body"><div class="full-feed-list" id="fullFeedList"></div></div></div></div>
+  <div class="modal-mask" id="quickTradeModal"><div class="modal quick-trade-modal"><div class="modal-head"><h3>快捷交易</h3><button class="icon-btn" id="closeQuickTrade" aria-label="关闭"><i data-lucide="x"></i></button></div><div class="modal-body"><div class="quick-market-summary"><span class="token-icon" id="quickTradeIcon">BTC</span><div><strong id="quickTradePair">BTCUSDC</strong><small>永续合约</small></div><div class="quick-market-price"><b id="quickTradePrice">68,240.50</b><em id="quickTradeChange">+2.34%</em></div></div><div class="quick-order-switch"><button class="quick-order-btn active" data-order="market">市价</button><button class="quick-order-btn" data-order="limit">限价</button></div><div class="quick-trade-field" id="quickLimitField" hidden><label>委托价格 <span>USDC</span></label><input id="quickLimitPrice" type="number" min="0" step="any"></div><div class="quick-trade-grid"><div class="quick-trade-field"><label>下单金额 <span>USDC</span></label><input id="quickTradeAmount" type="number" min="10" value="500"></div><div class="quick-trade-field"><label>杠杆 <span>1x–50x</span></label><div class="quick-leverage-control"><input id="quickTradeLeverage" type="range" min="1" max="50" value="5" step="1"><output id="quickTradeLeverageValue">5x</output></div></div></div><div class="quick-amount-options"><button data-amount="100">100</button><button data-amount="500">500</button><button data-amount="1000">1,000</button><button data-amount="2000">2,000</button></div><div class="quick-trade-balance"><span>可用余额</span><strong>8,426.60 USDC</strong></div><div class="risk-note">选择下方方向后将直接提交委托，请确认订单类型、金额与杠杆。</div><div class="quick-trade-actions"><button class="quick-trade-submit" data-side="long">做多</button><button class="quick-trade-submit" data-side="short">做空</button></div></div></div></div>
   <div class="modal-mask" id="copyModal"><div class="modal copy-settings-modal"><div class="modal-head"><h3>跟单设置</h3><button class="icon-btn" id="closeModal" aria-label="关闭"><i data-lucide="x"></i></button></div><div class="modal-body"><div class="copy-settings-content"><section class="settings-section"><h4>基础设置</h4><div class="mode-switch"><button class="mode-btn active" data-mode="follow">正向跟单</button><button class="mode-btn" data-mode="reverse">反向跟单</button></div><div class="mode-switch size-mode-switch"><button class="size-mode-btn active" data-size-mode="fixed">固定金额</button><button class="size-mode-btn" data-size-mode="ratio">按比例跟单</button></div><div class="settings-grid"><div class="setting-field fixed-size-field"><label>每笔跟单金额 <span>USDC</span></label><input type="number" value="500" min="10"></div><div class="setting-field ratio-size-field" hidden><label>跟随仓位比例 <span>%</span></label><input type="number" value="20" min="1" max="100"></div><div class="setting-field"><label>最大杠杆 <span>不超过交易者</span></label><select><option>3x</option><option>5x</option><option selected>10x</option><option>20x</option><option>跟随交易者</option></select></div></div></section><section class="settings-section"><h4>仓位与成交限制</h4><div class="settings-grid"><div class="setting-field"><label>单币种最大仓位 <span>USDC</span></label><input type="number" value="2000"></div><div class="setting-field"><label>总仓位上限 <span>USDC</span></label><input type="number" value="8000"></div><div class="setting-field"><label>最大允许滑点 <span>%</span></label><input type="number" value="0.5" step="0.1" min="0.1"></div><div class="setting-field"><label>信号最大延迟 <span>秒</span></label><input id="signalDelayInput" type="number" value="30" min="1"></div></div><div class="setting-row"><label>超时放弃执行<small>信号延迟超过设定时间时不再下单</small></label><label class="settings-switch"><input id="abandonDelayedSignal" type="checkbox" checked><span></span></label></div><div class="setting-field" style="margin-top:12px"><label>可跟币种范围 <span>多选</span></label><div class="coin-range"><label class="coin-choice"><input type="checkbox"><span>全部</span></label><label class="coin-choice"><input type="checkbox" checked><span>BTC</span></label><label class="coin-choice"><input type="checkbox" checked><span>ETH</span></label><label class="coin-choice"><input type="checkbox" checked><span>SOL</span></label><label class="coin-choice"><input type="checkbox"><span>主流币</span></label><label class="coin-choice"><input type="checkbox"><span>其他</span></label></div></div></section><section class="settings-section"><h4>退出与异常处理</h4><div class="setting-row"><label>独立止盈止损<small>达到阈值后独立于交易者平仓</small></label><label class="settings-switch"><input id="independentTpSl" type="checkbox" checked><span></span></label></div><div class="setting-inline tp-sl-fields"><div class="setting-field"><label>止盈比例 <span>%</span></label><input type="number" value="25"></div><div class="setting-field"><label>止损比例 <span>%</span></label><input type="number" value="12"></div></div><div class="setting-row"><label>同步交易者平仓<small>交易者全部或部分平仓时同步执行</small></label><label class="settings-switch"><input type="checkbox" checked><span></span></label></div><div class="setting-field" style="margin-top:12px"><label>交易者爆仓后的处理方式</label><select><option selected>立即暂停跟单并通知</option><option>停止跟单并撤销全部挂单</option><option>继续跟随后续交易</option></select></div></section><section class="settings-section"><h4>账户级风险保护</h4><div class="settings-grid"><div class="setting-field"><label>每日最大亏损 <span>USDC</span></label><input type="number" value="500"></div><div class="setting-field"><label>每日最大亏损比例 <span>%</span></label><input type="number" value="8"></div></div><div class="setting-row"><label>达到上限自动停止跟单<small>停止当日新信号，次日可手动恢复</small></label><label class="settings-switch"><input type="checkbox" checked><span></span></label></div></section><div class="risk-note">跟单成交价格可能因滑点、网络延迟和市场深度与交易者不同。设置仅对后续新订单生效。</div></div><div class="modal-footer copy-settings-footer"><button class="secondary-btn" id="cancelModal">取消</button><button class="primary-btn" id="confirmCopy">保存并开启</button></div></div></div></div>
   <div class="toast" id="toast">设置已更新</div>
 
@@ -746,10 +760,8 @@
       <article class="news-card detail-feed-card" data-source="trade"><div class="news-author"><span class="avatar green"><img src="https://unavatar.io/x/machibigbrother" alt="Machi Big Brother"></span><span class="who"><strong>Machi Big Brother</strong><small>链上地址 · 52 分钟前</small></span></div><p>BTCUSDC 多仓加仓 35%，成交均价 68,410.20 USDC，当前总仓位价值 285,100 USDC。</p><div class="news-market"><span class="token-icon">BTC</span><b>BTCUSDC</b><span>68,942.10</span><em>+1.27%</em><button class="tradeAction">立即交易</button></div></article>
       <article class="news-card detail-feed-card" data-source="ai"><div class="news-author"><span class="avatar blue"><i data-lucide="sparkles" style="width:17px"></i></span><span class="who"><strong>AI 观点与交易关联</strong><small>45 分钟前</small></span><span class="source-tag trade">AI 关联</span></div><p>Machi Big Brother 发布看多观点后 8 分钟增加 BTC 多仓，连续两次操作均与观点方向一致。</p><div class="ai-link"><strong>关联依据</strong>　观点 13:20 · 加仓 13:28 · 地址 0x020c...5872</div><div class="news-market"><span class="token-icon">BTC</span><b>BTCUSDC</b><span>68,942.10</span><em>+1.27%</em><button class="tradeAction">立即交易</button></div></article>`);
     const detailFeedList = $('.detail-feed-list');
-    detailFeedList?.insertAdjacentHTML('afterend', '<button class="detail-feed-more" id="openFeedModal">查看更多信息流</button>');
-    const fullFeedList = $('#fullFeedList');
-    if(fullFeedList && detailFeedList) fullFeedList.innerHTML = detailFeedList.innerHTML;
-    $$('#traderFeedSection .tradeAction, #feedModal .tradeAction').forEach(button => button.remove());
+    detailFeedList?.insertAdjacentHTML('afterend', '<button class="detail-feed-more" id="expandDetailFeed">查看更多信息流</button>');
+    $$('#traderFeedSection .tradeAction').forEach(button => button.remove());
     renderIcons();
     $$('.news-market .token-icon, .side-market .token-icon').forEach(icon => {
       const symbol = icon.textContent.trim().toLowerCase();
@@ -914,7 +926,48 @@
     }));
     $$('.subscribeAction').forEach(btn => btn.addEventListener('click', () => toast('订阅设置已更新')));
     $$('.followAction').forEach(btn => btn.addEventListener('click', () => { btn.classList.toggle('active'); toast(btn.classList.contains('active') ? '已关注该带单账户' : '已取消关注'); }));
-    $$('.tradeAction').forEach(btn => btn.addEventListener('click', () => toast('已打开对应交易对')));
+    const quickTradeModal = $('#quickTradeModal');
+    const closeQuickTrade = () => quickTradeModal?.classList.remove('open');
+    function openQuickTrade(button){
+      const market = button.closest('.news-market');
+      const pair = $('b', market)?.textContent.trim() || 'BTCUSDC';
+      const price = market?.querySelector('b + span')?.textContent.trim() || '0.00';
+      const change = $('em', market)?.textContent.trim() || '';
+      const symbol = pair.replace('USDC','');
+      $('#quickTradePair').textContent = pair;
+      $('#quickTradePrice').textContent = price;
+      $('#quickTradeChange').textContent = change;
+      $('#quickLimitPrice').value = price.replaceAll(',','');
+      $('#quickTradeIcon').innerHTML = `<img src="https://assets.coincap.io/assets/icons/${symbol.toLowerCase()}@2x.png" alt="${symbol} logo">`;
+      quickTradeModal.classList.add('open');
+    }
+    $$('.tradeAction').forEach(btn => btn.addEventListener('click', () => {
+      if(btn.closest('#intel-view')) openQuickTrade(btn);
+      else toast('已打开对应交易对');
+    }));
+    $$('.quick-order-btn').forEach(btn => btn.addEventListener('click', () => {
+      $$('.quick-order-btn').forEach(item => item.classList.toggle('active', item === btn));
+      $('#quickLimitField').hidden = btn.dataset.order !== 'limit';
+    }));
+    $$('.quick-amount-options button').forEach(btn => btn.addEventListener('click', () => { $('#quickTradeAmount').value = btn.dataset.amount; }));
+    $('#quickTradeLeverage')?.addEventListener('input', event => {
+      const value = Number(event.currentTarget.value);
+      const progress = ((value - 1) / 49) * 100;
+      $('#quickTradeLeverageValue').textContent = `${value}x`;
+      event.currentTarget.style.background = `linear-gradient(to right,var(--lime) ${progress}%,#30383c ${progress}%)`;
+    });
+    $('#closeQuickTrade')?.addEventListener('click', closeQuickTrade);
+    quickTradeModal?.addEventListener('click', event => { if(event.target === quickTradeModal) closeQuickTrade(); });
+    $$('.quick-trade-submit').forEach(button => button.addEventListener('click', () => {
+      const amount = Number($('#quickTradeAmount').value);
+      if(!amount || amount < 10){ $('#quickTradeAmount').focus(); toast('下单金额不能低于 10 USDC'); return; }
+      const isLimit = $('.quick-order-btn.active')?.dataset.order === 'limit';
+      if(isLimit && Number($('#quickLimitPrice').value) <= 0){ $('#quickLimitPrice').focus(); toast('请输入有效的委托价格'); return; }
+      const side = button.dataset.side === 'short' ? '做空' : '做多';
+      const pair = $('#quickTradePair').textContent;
+      closeQuickTrade();
+      toast(`${pair} ${side}委托已提交`);
+    }));
     $$('.stopAction').forEach(btn => btn.addEventListener('click', () => { btn.closest('.position-row').style.opacity='.45'; btn.textContent='已停止'; btn.disabled=true; toast('跟单策略已停止'); }));
     $('#walletBtn').addEventListener('click', () => toast('钱包已连接 · Arbitrum One'));
 
@@ -1171,10 +1224,10 @@
     }
     showDetailPanel('performanceSection');
     $$('.detail-page-tab').forEach(btn => btn.addEventListener('click', () => showDetailPanel(btn.dataset.target)));
-    const feedModal = $('#feedModal');
-    $('#openFeedModal')?.addEventListener('click', () => feedModal.classList.add('open'));
-    $('#closeFeedModal')?.addEventListener('click', () => feedModal.classList.remove('open'));
-    feedModal?.addEventListener('click', e => { if(e.target === feedModal) feedModal.classList.remove('open'); });
+    $('#expandDetailFeed')?.addEventListener('click', event => {
+      detailFeedList?.classList.add('expanded');
+      event.currentTarget.remove();
+    });
   </script>
 </body>
 </html>
