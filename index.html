@@ -248,7 +248,8 @@
     .field input:focus { border-color:var(--lime-dark); }
     .risk-note { color:var(--muted); font-size:10px; line-height:1.5; padding:10px; background:var(--bg); margin-bottom:14px; }
     .modal-footer { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-    .quick-trade-modal { width:min(420px,100%); }
+    .quick-trade-modal { width:min(420px,100%); max-height:calc(100vh - 32px); display:flex; flex-direction:column; }
+    .quick-trade-modal .modal-body { overflow-y:auto; }
     .quick-market-summary { display:flex; align-items:center; gap:10px; padding:12px; margin-bottom:14px; border:1px solid var(--line); border-radius:5px; background:var(--bg); }
     .quick-market-summary .token-icon { width:30px; height:30px; flex:0 0 30px; }
     .quick-market-summary strong { display:block; font-size:13px; }
@@ -256,6 +257,9 @@
     .quick-market-price { margin-left:auto; text-align:right; font-variant-numeric:tabular-nums; }
     .quick-market-price b { display:block; font-size:13px; }
     .quick-market-price em { display:block; margin-top:3px; color:var(--lime); font-size:9px; font-style:normal; }
+    .quick-ai-bias { margin:-5px 0 14px; padding:8px 10px; border:1px solid #345741; border-radius:4px; background:#15241a; color:var(--lime); display:flex; align-items:center; gap:7px; font-size:10px; }
+    .quick-ai-bias.bearish { border-color:#623b40; background:#27181b; color:var(--red); }
+    .quick-ai-bias svg { width:14px; }
     .quick-order-switch { display:grid; grid-template-columns:1fr 1fr; gap:4px; padding:3px; margin-bottom:14px; border-radius:5px; background:var(--bg); }
     .quick-order-btn { height:34px; border:0; border-radius:3px; background:transparent; color:var(--muted); cursor:pointer; }
     .quick-order-btn.active { color:var(--text); background:var(--surface-3); }
@@ -278,6 +282,9 @@
     .quick-trade-submit { height:38px; border:0; border-radius:4px; font-weight:700; cursor:pointer; }
     .quick-trade-submit[data-side="long"] { background:var(--lime); color:#08140c; }
     .quick-trade-submit[data-side="short"] { background:var(--red); color:#fff; }
+    .quick-trade-page { width:100%; height:36px; margin-top:8px; border:1px solid var(--line); border-radius:4px; background:transparent; color:var(--soft); display:flex; align-items:center; justify-content:center; gap:7px; cursor:pointer; }
+    .quick-trade-page:hover { color:var(--lime); border-color:#3a6548; }
+    .quick-trade-page svg { width:14px; }
     .copy-settings-modal { width:min(760px,100%); max-height:calc(100vh - 32px); display:flex; flex-direction:column; }
     .copy-settings-modal .modal-body { overflow-y:auto; padding:0; }
     .copy-settings-content { padding:18px; }
@@ -740,7 +747,7 @@
     </aside>
   </div>
 
-  <div class="modal-mask" id="quickTradeModal"><div class="modal quick-trade-modal"><div class="modal-head"><h3>快捷交易</h3><button class="icon-btn" id="closeQuickTrade" aria-label="关闭"><i data-lucide="x"></i></button></div><div class="modal-body"><div class="quick-market-summary"><span class="token-icon" id="quickTradeIcon">BTC</span><div><strong id="quickTradePair">BTCUSDC</strong><small>永续合约</small></div><div class="quick-market-price"><b id="quickTradePrice">68,240.50</b><em id="quickTradeChange">+2.34%</em></div></div><div class="quick-order-switch"><button class="quick-order-btn active" data-order="market">市价</button><button class="quick-order-btn" data-order="limit">限价</button></div><div class="quick-trade-field" id="quickLimitField" hidden><label>委托价格 <span>USDC</span></label><input id="quickLimitPrice" type="number" min="0" step="any"></div><div class="quick-trade-grid"><div class="quick-trade-field"><label>下单金额 <span>USDC</span></label><input id="quickTradeAmount" type="number" min="10" value="500"></div><div class="quick-trade-field"><label>杠杆 <span>1x–50x</span></label><div class="quick-leverage-control"><input id="quickTradeLeverage" type="range" min="1" max="50" value="5" step="1"><output id="quickTradeLeverageValue">5x</output></div></div></div><div class="quick-amount-options"><button data-amount="100">100</button><button data-amount="500">500</button><button data-amount="1000">1,000</button><button data-amount="2000">2,000</button></div><div class="quick-trade-balance"><span>可用余额</span><strong>8,426.60 USDC</strong></div><div class="risk-note">选择下方方向后将直接提交委托，请确认订单类型、金额与杠杆。</div><div class="quick-trade-actions"><button class="quick-trade-submit" data-side="long">做多</button><button class="quick-trade-submit" data-side="short">做空</button></div></div></div></div>
+  <div class="modal-mask" id="quickTradeModal"><div class="modal quick-trade-modal"><div class="modal-head"><h3>快捷交易</h3><button class="icon-btn" id="closeQuickTrade" aria-label="关闭"><i data-lucide="x"></i></button></div><div class="modal-body"><div class="quick-market-summary"><span class="token-icon" id="quickTradeIcon">BTC</span><div><strong id="quickTradePair">BTCUSDC</strong><small>永续合约</small></div><div class="quick-market-price"><b id="quickTradePrice">68,240.50</b><em id="quickTradeChange">+2.34%</em></div></div><div class="quick-order-switch"><button class="quick-order-btn active" data-order="market">市价</button><button class="quick-order-btn" data-order="limit">限价</button></div><div class="quick-trade-field" id="quickLimitField" hidden><label>委托价格 <span>USDC</span></label><input id="quickLimitPrice" type="number" min="0" step="any"></div><div class="quick-trade-grid"><div class="quick-trade-field"><label>下单金额 <span>USDC</span></label><input id="quickTradeAmount" type="number" min="10" value="500"></div><div class="quick-trade-field"><label>杠杆 <span>1x–50x</span></label><div class="quick-leverage-control"><input id="quickTradeLeverage" type="range" min="1" max="50" value="5" step="1"><output id="quickTradeLeverageValue">5x</output></div></div></div><div class="quick-amount-options"><button data-amount="100">100</button><button data-amount="500">500</button><button data-amount="1000">1,000</button><button data-amount="2000">2,000</button></div><div class="quick-trade-balance"><span>可用余额</span><strong>8,426.60 USDC</strong></div><div class="risk-note">选择下方方向后将直接提交委托，请确认订单类型、金额与杠杆。</div><div class="quick-trade-actions"><button class="quick-trade-submit" data-side="long">做多</button><button class="quick-trade-submit" data-side="short">做空</button></div><button class="quick-trade-page" id="openTradePage"><i data-lucide="external-link"></i>前往交易页下单</button></div></div></div>
   <div class="modal-mask" id="copyModal"><div class="modal copy-settings-modal"><div class="modal-head"><h3>跟单设置</h3><button class="icon-btn" id="closeModal" aria-label="关闭"><i data-lucide="x"></i></button></div><div class="modal-body"><div class="copy-settings-content"><section class="settings-section"><h4>基础设置</h4><div class="mode-switch"><button class="mode-btn active" data-mode="follow">正向跟单</button><button class="mode-btn" data-mode="reverse">反向跟单</button></div><div class="mode-switch size-mode-switch"><button class="size-mode-btn active" data-size-mode="fixed">固定金额</button><button class="size-mode-btn" data-size-mode="ratio">按比例跟单</button></div><div class="settings-grid"><div class="setting-field fixed-size-field"><label>每笔跟单金额 <span>USDC</span></label><input type="number" value="500" min="10"></div><div class="setting-field ratio-size-field" hidden><label>跟随仓位比例 <span>%</span></label><input type="number" value="20" min="1" max="100"></div><div class="setting-field"><label>最大杠杆 <span>不超过交易者</span></label><select><option>3x</option><option>5x</option><option selected>10x</option><option>20x</option><option>跟随交易者</option></select></div></div></section><section class="settings-section"><h4>仓位与成交限制</h4><div class="settings-grid"><div class="setting-field"><label>单币种最大仓位 <span>USDC</span></label><input type="number" value="2000"></div><div class="setting-field"><label>总仓位上限 <span>USDC</span></label><input type="number" value="8000"></div><div class="setting-field"><label>最大允许滑点 <span>%</span></label><input type="number" value="0.5" step="0.1" min="0.1"></div><div class="setting-field"><label>信号最大延迟 <span>秒</span></label><input id="signalDelayInput" type="number" value="30" min="1"></div></div><div class="setting-row"><label>超时放弃执行<small>信号延迟超过设定时间时不再下单</small></label><label class="settings-switch"><input id="abandonDelayedSignal" type="checkbox" checked><span></span></label></div><div class="setting-field" style="margin-top:12px"><label>可跟币种范围 <span>多选</span></label><div class="coin-range"><label class="coin-choice"><input type="checkbox"><span>全部</span></label><label class="coin-choice"><input type="checkbox" checked><span>BTC</span></label><label class="coin-choice"><input type="checkbox" checked><span>ETH</span></label><label class="coin-choice"><input type="checkbox" checked><span>SOL</span></label><label class="coin-choice"><input type="checkbox"><span>主流币</span></label><label class="coin-choice"><input type="checkbox"><span>其他</span></label></div></div></section><section class="settings-section"><h4>退出与异常处理</h4><div class="setting-row"><label>独立止盈止损<small>达到阈值后独立于交易者平仓</small></label><label class="settings-switch"><input id="independentTpSl" type="checkbox" checked><span></span></label></div><div class="setting-inline tp-sl-fields"><div class="setting-field"><label>止盈比例 <span>%</span></label><input type="number" value="25"></div><div class="setting-field"><label>止损比例 <span>%</span></label><input type="number" value="12"></div></div><div class="setting-row"><label>同步交易者平仓<small>交易者全部或部分平仓时同步执行</small></label><label class="settings-switch"><input type="checkbox" checked><span></span></label></div><div class="setting-field" style="margin-top:12px"><label>交易者爆仓后的处理方式</label><select><option selected>立即暂停跟单并通知</option><option>停止跟单并撤销全部挂单</option><option>继续跟随后续交易</option></select></div></section><section class="settings-section"><h4>账户级风险保护</h4><div class="settings-grid"><div class="setting-field"><label>每日最大亏损 <span>USDC</span></label><input type="number" value="500"></div><div class="setting-field"><label>每日最大亏损比例 <span>%</span></label><input type="number" value="8"></div></div><div class="setting-row"><label>达到上限自动停止跟单<small>停止当日新信号，次日可手动恢复</small></label><label class="settings-switch"><input type="checkbox" checked><span></span></label></div></section><div class="risk-note">跟单成交价格可能因滑点、网络延迟和市场深度与交易者不同。设置仅对后续新订单生效。</div></div><div class="modal-footer copy-settings-footer"><button class="secondary-btn" id="cancelModal">取消</button><button class="primary-btn" id="confirmCopy">保存并开启</button></div></div></div></div>
   <div class="toast" id="toast">设置已更新</div>
 
@@ -927,19 +934,35 @@
     $$('.subscribeAction').forEach(btn => btn.addEventListener('click', () => toast('订阅设置已更新')));
     $$('.followAction').forEach(btn => btn.addEventListener('click', () => { btn.classList.toggle('active'); toast(btn.classList.contains('active') ? '已关注该带单账户' : '已取消关注'); }));
     const quickTradeModal = $('#quickTradeModal');
+    $('.quick-market-summary', quickTradeModal)?.insertAdjacentHTML('afterend', '<div class="quick-ai-bias" id="quickAiBias" hidden><i data-lucide="sparkles"></i><strong>AI 方向偏好 · 偏多</strong></div>');
     const closeQuickTrade = () => quickTradeModal?.classList.remove('open');
     function openQuickTrade(button){
       const market = button.closest('.news-market');
+      const card = button.closest('.news-card');
       const pair = $('b', market)?.textContent.trim() || 'BTCUSDC';
       const price = market?.querySelector('b + span')?.textContent.trim() || '0.00';
       const change = $('em', market)?.textContent.trim() || '';
       const symbol = pair.replace('USDC','');
+      const isNews = card?.dataset.source === 'news' || card?.textContent.includes('新闻关联');
+      const isCopySignal = !isNews && (card?.dataset.source === 'kol' || card?.textContent.includes('交易关联'));
+      quickTradeModal.dataset.actionType = isCopySignal ? 'follow' : 'trade';
+      const directionButtons = $$('.quick-trade-submit', quickTradeModal);
+      directionButtons[0].textContent = isCopySignal ? '跟随' : '做多';
+      directionButtons[1].textContent = isCopySignal ? '反向' : '做空';
+      const aiBias = $('#quickAiBias');
+      aiBias.hidden = !isNews;
+      if(isNews){
+        const bearish = /下跌|流出|承压|利空|风险/.test(card.textContent);
+        aiBias.classList.toggle('bearish', bearish);
+        $('strong', aiBias).textContent = `AI 方向偏好 · ${bearish ? '偏空' : '偏多'}`;
+      }
       $('#quickTradePair').textContent = pair;
       $('#quickTradePrice').textContent = price;
       $('#quickTradeChange').textContent = change;
       $('#quickLimitPrice').value = price.replaceAll(',','');
       $('#quickTradeIcon').innerHTML = `<img src="https://assets.coincap.io/assets/icons/${symbol.toLowerCase()}@2x.png" alt="${symbol} logo">`;
       quickTradeModal.classList.add('open');
+      renderIcons();
     }
     $$('.tradeAction').forEach(btn => btn.addEventListener('click', () => {
       if(btn.closest('#intel-view')) openQuickTrade(btn);
@@ -963,11 +986,17 @@
       if(!amount || amount < 10){ $('#quickTradeAmount').focus(); toast('下单金额不能低于 10 USDC'); return; }
       const isLimit = $('.quick-order-btn.active')?.dataset.order === 'limit';
       if(isLimit && Number($('#quickLimitPrice').value) <= 0){ $('#quickLimitPrice').focus(); toast('请输入有效的委托价格'); return; }
-      const side = button.dataset.side === 'short' ? '做空' : '做多';
+      const followsTrader = quickTradeModal.dataset.actionType === 'follow';
+      const side = followsTrader ? (button.dataset.side === 'short' ? '反向' : '跟随') : (button.dataset.side === 'short' ? '做空' : '做多');
       const pair = $('#quickTradePair').textContent;
       closeQuickTrade();
-      toast(`${pair} ${side}委托已提交`);
+      toast(followsTrader ? `${pair} ${side}设置已提交` : `${pair} ${side}委托已提交`);
     }));
+    $('#openTradePage')?.addEventListener('click', () => {
+      const pair = $('#quickTradePair').textContent;
+      closeQuickTrade();
+      toast(`已前往 ${pair} 交易页`);
+    });
     $$('.stopAction').forEach(btn => btn.addEventListener('click', () => { btn.closest('.position-row').style.opacity='.45'; btn.textContent='已停止'; btn.disabled=true; toast('跟单策略已停止'); }));
     $('#walletBtn').addEventListener('click', () => toast('钱包已连接 · Arbitrum One'));
 
