@@ -445,6 +445,10 @@
     .detail-feed-list { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; padding:16px 20px 20px; }
     .detail-feed-list .news-card { padding:16px; }
     .detail-feed-list .news-card > p { font-size:12px; line-height:1.6; margin:14px 0; }
+    #traderFeedSection .detail-feed-list { display:flex; flex-direction:column; gap:0; padding:0; }
+    #traderFeedSection .detail-feed-list .news-card { padding:18px 20px; border:0; border-bottom:1px solid var(--line); border-radius:0; background:transparent; }
+    #traderFeedSection .detail-feed-list .news-card:last-child { border-bottom:0; }
+    #traderFeedSection .detail-feed-list .news-card > p { font-size:13px; line-height:1.65; }
     #traderFeedSection .detail-feed-list > .news-card:nth-child(n+4) { display:none; }
     .detail-feed-more { width:100%; height:44px; border:0; border-top:1px solid var(--line); background:transparent; color:var(--lime); cursor:pointer; }
     .feed-modal { width:min(760px,100%); }
@@ -734,6 +738,8 @@
     renderIcons();
     $('#performanceSection .detail-kpis')?.insertAdjacentHTML('beforeend', '<div class="detail-kpi"><small>跟单用户收益（USDC）</small><b style="color:var(--lime)">+36,842.90</b></div>');
     $('.detail-page-tabs')?.insertAdjacentHTML('beforeend', '<button class="detail-page-tab" data-target="followersSection">跟单用户</button>');
+    const detailFeedTab = $('.detail-page-tab[data-target="traderFeedSection"]');
+    if(detailFeedTab) $('.detail-page-tabs')?.appendChild(detailFeedTab);
     $('#historySection')?.insertAdjacentHTML('afterend', `<section class="detail-section" id="followersSection"><h2>跟单用户</h2><div class="table-wrap"><table class="data-table"><thead><tr><th>跟单用户地址</th><th>总投入金额（USDC）</th><th>跟单天数</th><th>累计盈亏（USDC）</th></tr></thead><tbody><tr><td class="masked-address">0x91D...6E2A</td><td>48,000.00</td><td>128 天</td><td class="status-live">+12,842.60</td></tr><tr><td class="masked-address">0x7A3...92C1</td><td>32,500.00</td><td>96 天</td><td class="status-live">+8,416.20</td></tr><tr><td class="masked-address">0xB82...4D09</td><td>25,000.00</td><td>74 天</td><td class="status-live">+5,284.90</td></tr><tr><td class="masked-address">0x63C...7F12</td><td>18,800.00</td><td>63 天</td><td class="status-live">+3,742.40</td></tr><tr><td class="masked-address">0xF04...A827</td><td>12,000.00</td><td>41 天</td><td style="color:var(--red)">−684.30</td></tr><tr><td class="masked-address">0x92B...C610</td><td>8,500.00</td><td>28 天</td><td class="status-live">+1,126.10</td></tr></tbody></table></div></section>`);
     $('.detail-feed-list')?.insertAdjacentHTML('beforeend', `
       <article class="news-card detail-feed-card" data-source="kol"><div class="news-author"><span class="avatar green"><img src="https://unavatar.io/x/machibigbrother" alt="Machi Big Brother"></span><span class="who"><strong>Machi Big Brother</strong><small>@machibigbrother · 1 小时前</small></span></div><p>Paper. Higher.</p><div class="news-market"><span class="token-icon">BTC</span><b>BTCUSDC</b><span>68,942.10</span><em>+1.27%</em><button class="tradeAction">立即交易</button></div></article>
