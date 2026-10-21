@@ -141,6 +141,10 @@
     .leader-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
     .trader-card { min-width:0; padding:20px; background:var(--surface); border:1px solid var(--line); border-radius:8px; cursor:pointer; transition:border-color .15s, background .15s, transform .15s; }
     .trader-card:hover { background:var(--surface-2); border-color:#3b464b; transform:translateY(-1px); }
+    #market-view[data-trader-group="loser"] .trader-card[data-performance="loser"] .reverseTrigger { border-color:var(--red); background:var(--red); color:#fff; font-weight:700; }
+    #market-view[data-trader-group="loser"] .trader-card[data-performance="loser"] .reverseTrigger:hover { filter:brightness(1.08); }
+    #market-view[data-trader-group="loser"] .trader-card[data-performance="loser"] .copyTrigger { border:1px solid var(--line); background:var(--surface-3); color:var(--soft); font-weight:500; }
+    #market-view[data-trader-group="loser"] .trader-card[data-performance="loser"] .copyTrigger:hover { border-color:#4a555a; color:var(--text); }
     .trader-card-top { display:flex; align-items:center; gap:10px; }
     .trader-card-top .trader-cell { flex:1; min-width:0; }
     .trader-card .avatar { width:42px; height:42px; border:1px solid currentColor; }
@@ -343,14 +347,18 @@
     .related-card strong { display:block; margin:10px 0 6px; font-size:11px; }
     .related-card p { margin:0; color:var(--muted); font-size:10px; line-height:1.5; }
     #market-view > .page-head { grid-column:1; margin:0; padding:28px 32px 0; align-items:center; }
-    .my-copy-module { min-width:280px; padding:12px 14px; background:var(--surface); border:1px solid var(--line); border-radius:6px; }
+    .my-copy-module { width:min(390px,38vw); min-width:340px; padding:14px 16px 12px; background:var(--surface); border:1px solid var(--line); border-radius:6px; }
     .my-copy-module-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:9px; }
     .my-copy-module-head strong { font-size:12px; }
     .my-copy-module-head span { color:var(--muted); font-size:10px; }
     .my-copy-module-body { display:flex; align-items:end; justify-content:space-between; gap:16px; }
     .my-copy-equity small { display:block; color:var(--muted); font-size:9px; margin-bottom:3px; }
-    .my-copy-equity b { font-size:18px; font-variant-numeric:tabular-nums; }
+    .my-copy-equity b { font-size:24px; font-variant-numeric:tabular-nums; }
     .my-copy-module .overview-actions { margin:0; }
+    .my-copy-pnl { display:flex; gap:16px; margin-top:10px; }
+    .my-copy-pnl div { flex:1; min-width:0; }
+    .my-copy-pnl small { display:block; margin-bottom:3px; color:var(--muted); font-size:9px; }
+    .my-copy-pnl b { color:var(--lime); font-size:12px; font-variant-numeric:tabular-nums; }
     #market-view > .market-layout { grid-column:1; padding:0 32px 30px; }
     #market-view.active > .market-layout { height:100%; overflow-y:auto; overscroll-behavior:contain; }
     .market-subnav { display:flex; gap:24px; align-items:center; margin-top:18px; }
@@ -567,6 +575,7 @@
       #traderFeedSection { max-width:none; }
       .detail-feed-list { grid-template-columns:1fr; }
       .data-panel { overflow-x:auto; }
+      .my-copy-module { width:100%; min-width:0; }
       .figma-feed { display:none; }
       #market-view > .page-head { padding:10px 0 14px; }
       #market-view.feed-collapsed > .page-head { padding-left:50px; }
@@ -695,9 +704,9 @@
       </section>
 
       <section class="view active" id="market-view">
-        <div class="page-head"><div><h1>发现链上策略</h1><p>自主选择，无需分润</p><div class="market-subnav"><button class="active">全部带单者</button><button>我的关注</button></div></div><aside class="my-copy-module"><div class="my-copy-module-head"><strong>我的跟单</strong><span>跟随交易员 3 人</span></div><div class="my-copy-module-body"><div class="my-copy-equity"><small>跟单账户权益（USDT）</small><b>13,482.60</b></div><div class="overview-actions"><button class="primary-btn equityTransfer">划转</button><button class="secondary-btn" data-go="manage">详情</button></div></div></aside></div>
+        <div class="page-head"><div><h1>发现链上策略</h1><p>自主选择，无需分润</p><div class="market-subnav"><button class="active" data-trader-group="gainer">Top Gainer</button><button data-trader-group="loser">Top Loser</button><button data-trader-group="followed">我的关注</button></div></div><aside class="my-copy-module"><div class="my-copy-module-head"><strong>我的跟单</strong><span>跟随交易员 3 人</span></div><div class="my-copy-module-body"><div class="my-copy-equity"><small>跟单账户权益（USDT）</small><b>13,482.60</b></div><div class="overview-actions"><button class="primary-btn equityTransfer">划转</button><button class="secondary-btn" data-go="manage">详情</button></div></div></aside></div>
         <div class="market-layout">
-          <section><div class="leader-grid-head"><div class="control-row market-filter-row"><button class="market-filter-btn active" data-market-filter="comprehensive">综合</button><button class="market-filter-btn" data-market-filter="profit">收益额</button><button class="market-filter-btn" data-market-filter="winrate">胜率</button><button class="market-filter-btn" data-market-filter="followers">跟单用户</button><button class="market-filter-btn" data-market-filter="equity">账户权益</button><button class="market-filter-btn" data-market-filter="verified">已认证地址</button></div><div class="control-row"><input class="search" placeholder="搜索名称、地址或推特账户"></div></div><div class="leader-grid">
+          <section><div class="leader-grid-head"><div class="control-row market-filter-row"><button class="market-filter-btn active" data-market-filter="comprehensive">综合</button><button class="market-filter-btn" data-market-filter="winrate">胜率</button><button class="market-filter-btn" data-market-filter="followers">跟单用户</button><button class="market-filter-btn" data-market-filter="equity">账户权益</button><button class="market-filter-btn" data-market-filter="verified">已认证地址</button></div><div class="control-row"><input class="search" placeholder="搜索名称、地址或推特账户"></div></div><div class="leader-grid">
             <article class="trader-card openTrader"><div class="trader-card-top"><div class="trader-cell"><span class="avatar green">AP</span><span class="info"><strong>Andrew P. <span class="badge">A3 认证</span></strong><small>@AP_Abacus ↗</small></span></div><button class="bookmark-btn subscribeAction" aria-label="收藏"><i data-lucide="bookmark"></i></button></div><div class="card-address">0x71b...82f9 <i data-lucide="copy"></i><span>· 多币种趋势 · BTC / ETH</span></div><div class="return-block"><div><div class="return-label">近 30 日收益额（USDT）</div><div class="return-value">+184,240.00</div><div class="return-rate">+42.86%</div></div><div class="card-chart"><svg viewBox="0 0 108 52" preserveAspectRatio="none"><path d="M0 48L14 40L28 43L42 27L56 32L70 18L84 21L98 5L108 8V52H0Z"/><polyline points="0,48 14,40 28,43 42,27 56,32 70,18 84,21 98,5 108,8"/></svg></div></div><div class="card-stats"><div class="card-stat"><small>账户权益</small><b>1,924,680</b></div><div class="card-stat"><small>胜率</small><b>71.4%</b></div><div class="card-stat"><small>最大回撤</small><b>8.2%</b></div></div><div class="copy-scale"><span>328 人跟单 · 分润 10%</span><span class="detail-link">查看详情 →</span></div><div class="card-actions"><button class="trade-btn copyTrigger">跟单</button><button class="secondary-btn reverseTrigger">反向跟单</button><button class="quiet-action subscribeAction">订阅</button></div></article>
             <article class="trader-card openTrader"><div class="trader-card-top"><div class="trader-cell"><span class="avatar blue">0x</span><span class="info"><strong>0xWhale <span class="badge">A2 认证</span></strong><small>@whale_onchain ↗</small></span></div><button class="bookmark-btn subscribeAction" aria-label="收藏"><i data-lucide="bookmark"></i></button></div><div class="card-address">0x88e...43a1 <i data-lucide="copy"></i><span>· 日内波段 · BTC / SOL</span></div><div class="return-block"><div><div class="return-label">近 30 日收益额（USDT）</div><div class="return-value">+96,820.40</div><div class="return-rate">+36.71%</div></div><div class="card-chart"><svg viewBox="0 0 108 52" preserveAspectRatio="none"><path d="M0 46L14 42L28 31L42 36L56 22L70 27L84 11L98 16L108 6V52H0Z"/><polyline points="0,46 14,42 28,31 42,36 56,22 70,27 84,11 98,16 108,6"/></svg></div></div><div class="card-stats"><div class="card-stat"><small>账户权益</small><b>840,210</b></div><div class="card-stat"><small>胜率</small><b>73.1%</b></div><div class="card-stat"><small>最大回撤</small><b>11.6%</b></div></div><div class="copy-scale"><span>196 人跟单 · 分润 10%</span><span class="detail-link">查看详情 →</span></div><div class="card-actions"><button class="trade-btn copyTrigger">跟单</button><button class="secondary-btn reverseTrigger">反向跟单</button><button class="quiet-action subscribeAction">订阅</button></div></article>
             <article class="trader-card openTrader"><div class="trader-card-top"><div class="trader-cell"><span class="avatar gold">CZ</span><span class="info"><strong>CryptoZebra <span class="badge">A2 认证</span></strong><small>@cryptozebra ↗</small></span></div><button class="bookmark-btn subscribeAction" aria-label="收藏"><i data-lucide="bookmark"></i></button></div><div class="card-address">0xa2c...90e8 <i data-lucide="copy"></i><span>· 趋势交易 · ETH / SOL</span></div><div class="return-block"><div><div class="return-label">近 30 日收益额（USDT）</div><div class="return-value">+72,140.20</div><div class="return-rate">+28.43%</div></div><div class="card-chart"><svg viewBox="0 0 108 52" preserveAspectRatio="none"><path d="M0 48L14 27L28 34L42 19L56 30L70 14L84 20L98 7L108 13V52H0Z"/><polyline points="0,48 14,27 28,34 42,19 56,30 70,14 84,20 98,7 108,13"/></svg></div></div><div class="card-stats"><div class="card-stat"><small>账户权益</small><b>625,470</b></div><div class="card-stat"><small>胜率</small><b>68.6%</b></div><div class="card-stat"><small>最大回撤</small><b>9.7%</b></div></div><div class="copy-scale"><span>142 人跟单 · 分润 8%</span><span class="detail-link">查看详情 →</span></div><div class="card-actions"><button class="trade-btn copyTrigger">跟单</button><button class="secondary-btn reverseTrigger">反向跟单</button><button class="quiet-action subscribeAction">订阅</button></div></article>
@@ -757,6 +766,11 @@
     const views = { intel: $('#intel-view'), market: $('#market-view'), manage: $('#manage-view'), detail: $('#detail-view') };
     function renderIcons(){ if(window.lucide) lucide.createIcons(); }
     renderIcons();
+    const myCopyModule = $('.my-copy-module');
+    if(myCopyModule){
+      myCopyModule.innerHTML = `<div class="my-copy-module-head"><strong>我的跟单账户</strong><span>跟随交易员 3 人</span></div><div class="my-copy-module-body"><div class="my-copy-equity"><small>跟单账户权益（USDC）</small><b>13,482.60</b></div><div class="overview-actions"><button class="primary-btn equityTransfer">划转</button><button class="secondary-btn" data-go="manage">详情</button></div></div><div class="my-copy-pnl"><div><small>累计收益</small><b>+885.75 USDC</b></div><div><small>今日收益</small><b>+126.40 USDC</b></div></div>`;
+      renderIcons();
+    }
     $('#performanceSection .detail-kpis')?.insertAdjacentHTML('beforeend', '<div class="detail-kpi"><small>跟单用户收益（USDC）</small><b style="color:var(--lime)">+36,842.90</b></div>');
     $('.detail-page-tabs')?.insertAdjacentHTML('beforeend', '<button class="detail-page-tab" data-target="followersSection">跟单用户</button>');
     const detailFeedTab = $('.detail-page-tab[data-target="traderFeedSection"]');
@@ -806,7 +820,7 @@
       ['零度研究','零','@zero_demo ↗','0xB82e...4D09 ','+84,216.30','+84.22%'],
       ['鲸落','鲸','@whale_demo ↗','0x63C9...7F12 ','+62,180.90','+62.18%'],
       ['北辰','北','@beichen_demo ↗','0xF04a...A827 ','+48,920.40','+48.92%'],
-      ['波段旅人','波','@swing_demo ↗','0x92Bd...C610 ','+36,714.80','+36.71%'],
+      ['波段旅人','波','@swing_demo ↗','0x92Bd...C610 ','−12,714.80','−12.71%'],
       ['青禾','青','@qinghe_demo ↗','0xA16c...D284 ','−8,430.20','−8.43%']
     ];
     const traderAddresses = [
@@ -838,7 +852,9 @@
       address.dataset.fullAddress = traderAddresses[index];
       $('.return-value',card).textContent = profile[4];
       $('.return-rate',card)?.remove();
-      if(index === 5){ $('.return-value',card).style.color='var(--red)'; }
+      const isLoser = profile[4].includes('−') || profile[4].startsWith('-');
+      card.dataset.performance = isLoser ? 'loser' : 'gainer';
+      if(isLoser){ $('.return-value',card).style.color='var(--red)'; }
     });
     $$('.return-rate').forEach(el => el.remove());
     $$('.return-label').forEach(el => { el.textContent = el.textContent.replace('USDT', 'USDC'); });
@@ -1087,12 +1103,13 @@
     function filterTraders(){
       const query = (marketSearch?.value || '').trim().toLowerCase();
       const verifiedOnly = $('.market-filter-btn.active')?.dataset.marketFilter === 'verified';
-      const followedOnly = $('.market-subnav button.active')?.textContent.includes('关注');
+      const traderGroup = $('.market-subnav button.active')?.dataset.traderGroup || 'gainer';
+      $('#market-view').dataset.traderGroup = traderGroup;
       $$('.trader-card').forEach((card,index) => {
         const matchesText = !query || card.textContent.toLowerCase().includes(query);
         const matchesVerified = !verifiedOnly || $('.badge',card)?.textContent === '已认证';
-        const matchesFollowed = !followedOnly || index < 3;
-        card.classList.toggle('is-hidden', !(matchesText && matchesVerified && matchesFollowed));
+        const matchesGroup = traderGroup === 'followed' ? index < 3 : card.dataset.performance === traderGroup;
+        card.classList.toggle('is-hidden', !(matchesText && matchesVerified && matchesGroup));
       });
     }
     marketSearch?.addEventListener('input', filterTraders);
@@ -1109,7 +1126,6 @@
           };
           const value = card => {
             if(mode === 'comprehensive') return -Number(card.dataset.originalOrder);
-            if(mode === 'profit') return Math.abs(Number($('.return-value',card).textContent.replace(/[^0-9.]/g,'')));
             if(mode === 'winrate') return statValue(card,'胜率');
             if(mode === 'equity') return statValue(card,'账户权益');
             return Number($('.copy-scale > span',card).textContent.match(/\d+/)?.[0] || 0);
@@ -1120,6 +1136,7 @@
       filterTraders();
       toast(mode === 'verified' ? '已筛选认证地址' : mode === 'comprehensive' ? '已恢复综合排序' : `已按${btn.textContent}排序`);
     }));
+    filterTraders();
     $$('.page-buttons button').forEach(btn => btn.addEventListener('click', () => {
       if(btn.textContent === '上一页' || btn.textContent === '下一页'){ toast(`已切换到${btn.textContent === '下一页' ? '下一' : '上一'}页`); return; }
       $$('.page-buttons button').forEach(b => b.classList.remove('active')); btn.classList.add('active'); toast(`当前第 ${btn.textContent} 页`);
