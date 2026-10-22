@@ -439,12 +439,28 @@
     .manage-head { display:flex; align-items:center; justify-content:space-between; }
     .identity-strip { display:flex; align-items:center; gap:12px; padding:14px 16px; margin:20px 0 16px; border:1px solid var(--line); background:var(--surface); border-radius:6px; }
     .identity-strip strong { font-size:12px; }.identity-strip span { color:var(--muted); font-size:10px; }.identity-strip a { margin-left:auto; color:var(--lime); font-size:10px; }
-    .overview-grid { display:grid; grid-template-columns:repeat(4,1fr); background:var(--surface); border:1px solid var(--line); border-radius:6px; margin-bottom:16px; }
-    .overview-stat { padding:20px; }.overview-stat small { color:var(--muted); font-size:10px; }.overview-stat b { display:block; margin:8px 0; font-size:22px; }.overview-stat span { color:var(--muted); font-size:9px; }
+    .manage-overview { display:grid; grid-template-columns:minmax(320px,.8fr) minmax(0,1.2fr); background:var(--surface); border:1px solid var(--line); border-radius:6px; margin-bottom:16px; overflow:hidden; }
+    .overview-grid { display:grid; grid-template-columns:repeat(2,1fr); margin:0; background:transparent; border:0; border-radius:0; }
+    .overview-stat { padding:20px; border:0; }.overview-stat small { color:var(--muted); font-size:10px; }.overview-stat b { display:block; margin:8px 0; font-size:22px; }.overview-stat span { color:var(--muted); font-size:9px; }
     #manage-view .overview-stat:nth-child(1) { order:3; }
     #manage-view .overview-stat:nth-child(2) { order:4; }
-    #manage-view .overview-stat:nth-child(3) { order:1; }
-    #manage-view .overview-stat:nth-child(4) { order:2; }
+    #manage-view .overview-stat:nth-child(3) { order:1; border-right:1px solid var(--line); border-bottom:1px solid var(--line); }
+    #manage-view .overview-stat:nth-child(4) { order:2; border-bottom:1px solid var(--line); }
+    #manage-view .overview-stat:nth-child(1) { border-right:1px solid var(--line); }
+    .manage-profit-panel { min-width:0; padding:18px 20px 14px; border-left:1px solid var(--line); }
+    .manage-profit-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+    .manage-profit-head h2 { margin:0 0 5px; font-size:13px; }
+    .manage-profit-value { color:var(--lime); font-size:20px; font-weight:650; font-variant-numeric:tabular-nums; }
+    .manage-profit-periods { display:flex; gap:3px; padding:3px; background:var(--bg); border-radius:4px; }
+    .manage-profit-periods button { height:27px; padding:0 9px; border:0; border-radius:3px; background:transparent; color:var(--muted); font-size:9px; cursor:pointer; }
+    .manage-profit-periods button.active { background:var(--surface-3); color:var(--text); }
+    .manage-profit-chart { height:142px; margin-top:10px; position:relative; }
+    .manage-profit-chart svg { width:100%; height:100%; display:block; overflow:visible; }
+    .manage-profit-chart .grid { stroke:#252d31; stroke-width:1; }
+    .manage-profit-chart .area { fill:url(#manageProfitFade); }
+    .manage-profit-chart .line { fill:none; stroke:var(--lime); stroke-width:2; vector-effect:non-scaling-stroke; }
+    .manage-profit-chart .dot { fill:var(--lime); }
+    .manage-profit-axis { display:flex; justify-content:space-between; color:var(--muted); font-size:8px; margin-top:-2px; }
     .overview-actions { display:flex; gap:6px; margin-top:12px; }
     .overview-actions button { height:28px; padding:0 12px; font-size:10px; }
     .equity-inline { display:flex; align-items:center; gap:14px; margin:8px 0; }
@@ -550,6 +566,8 @@
       .leader-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
       .side-note { grid-template-columns:repeat(2,1fr); }
       .side-note h3 { grid-column:1 / -1; }
+      .manage-overview { grid-template-columns:1fr; }
+      .manage-profit-panel { border-left:0; border-top:1px solid var(--line); }
     }
     @media (max-width: 720px) {
       .topbar { padding:0 12px; gap:12px; }
@@ -570,6 +588,10 @@
       .discovery-search { width:100%; margin-left:0; order:2; }
       .settings-grid { grid-template-columns:1fr; }
       .overview-grid { grid-template-columns:1fr 1fr; }
+      .manage-profit-head { align-items:center; }
+      .manage-profit-panel { padding:16px 14px 12px; }
+      .manage-profit-periods button { padding:0 7px; }
+      .manage-profit-chart { height:120px; }
       .detail-overview { grid-template-columns:1fr; }
       .detail-data-grid { grid-template-columns:1fr; }
       #traderFeedSection { max-width:none; }
@@ -766,6 +788,47 @@
     const views = { intel: $('#intel-view'), market: $('#market-view'), manage: $('#manage-view'), detail: $('#detail-view') };
     function renderIcons(){ if(window.lucide) lucide.createIcons(); }
     renderIcons();
+    const manageOverviewGrid = $('#manage-view .overview-grid');
+    if(manageOverviewGrid){
+      manageOverviewGrid.insertAdjacentHTML('beforebegin', '<section class="manage-overview" aria-label="我的跟单数据"></section>');
+      const manageOverview = $('#manage-view .manage-overview');
+      manageOverview.appendChild(manageOverviewGrid);
+      manageOverview.insertAdjacentHTML('beforeend', `
+        <div class="manage-profit-panel">
+          <div class="manage-profit-head">
+            <div><h2>累计收益曲线</h2><div class="manage-profit-value" id="manageProfitValue">+885.75 USDC</div></div>
+            <div class="manage-profit-periods" aria-label="收益曲线时间范围">
+              <button data-profit-period="7D">7D</button><button class="active" data-profit-period="30D">30D</button><button data-profit-period="90D">90D</button><button data-profit-period="ALL">全部</button>
+            </div>
+          </div>
+          <div class="manage-profit-chart">
+            <svg viewBox="0 0 560 128" preserveAspectRatio="none" role="img" aria-label="累计收益曲线">
+              <defs><linearGradient id="manageProfitFade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22FD73" stop-opacity=".2"/><stop offset="1" stop-color="#22FD73" stop-opacity="0"/></linearGradient></defs>
+              <path class="grid" d="M0 20H560M0 64H560M0 108H560"/>
+              <path class="area" id="manageProfitArea" d="M0 108L56 101L112 104L168 82L224 87L280 65L336 69L392 44L448 51L504 22L560 28V128H0Z"/>
+              <path class="line" id="manageProfitLine" d="M0 108L56 101L112 104L168 82L224 87L280 65L336 69L392 44L448 51L504 22L560 28"/>
+              <circle class="dot" id="manageProfitDot" cx="560" cy="28" r="3.5"/>
+            </svg>
+          </div>
+          <div class="manage-profit-axis" id="manageProfitAxis"><span>09/23</span><span>10/01</span><span>10/08</span><span>10/15</span><span>今天</span></div>
+        </div>`);
+      const profitSeries = {
+        '7D': { value:'+126.40 USDC', path:'M0 101L93 91L186 96L280 70L373 76L466 42L560 30', labels:['10/16','10/18','10/20','10/21','今天'] },
+        '30D': { value:'+885.75 USDC', path:'M0 108L56 101L112 104L168 82L224 87L280 65L336 69L392 44L448 51L504 22L560 28', labels:['09/23','10/01','10/08','10/15','今天'] },
+        '90D': { value:'+2,418.30 USDC', path:'M0 115L62 106L124 110L186 88L248 95L310 69L372 73L434 47L497 31L560 18', labels:['07/24','08/15','09/07','09/30','今天'] },
+        'ALL': { value:'+3,862.15 USDC', path:'M0 116L47 108L93 112L140 98L187 103L233 79L280 87L327 61L373 66L420 41L467 48L513 25L560 16', labels:['2025/11','2026/02','2026/05','2026/08','今天'] }
+      };
+      $$('.manage-profit-periods button').forEach(button => button.addEventListener('click', () => {
+        const series = profitSeries[button.dataset.profitPeriod];
+        $$('.manage-profit-periods button').forEach(item => item.classList.toggle('active', item === button));
+        $('#manageProfitValue').textContent = series.value;
+        $('#manageProfitLine').setAttribute('d', series.path);
+        $('#manageProfitArea').setAttribute('d', `${series.path}V128H0Z`);
+        const point = series.path.match(/L560 (\d+)$/);
+        $('#manageProfitDot').setAttribute('cy', point ? point[1] : '28');
+        $('#manageProfitAxis').innerHTML = series.labels.map(label => `<span>${label}</span>`).join('');
+      }));
+    }
     const myCopyModule = $('.my-copy-module');
     if(myCopyModule){
       myCopyModule.innerHTML = `<div class="my-copy-module-head"><strong>我的跟单账户</strong><span>跟随交易员 3 人</span></div><div class="my-copy-module-body"><div class="my-copy-equity"><small>跟单账户权益（USDC）</small><b>13,482.60</b></div><div class="overview-actions"><button class="primary-btn equityTransfer">划转</button><button class="secondary-btn" data-go="manage">详情</button></div></div><div class="my-copy-pnl"><div><small>累计收益</small><b>+885.75 USDC</b></div><div><small>今日收益</small><b>+126.40 USDC</b></div></div>`;
