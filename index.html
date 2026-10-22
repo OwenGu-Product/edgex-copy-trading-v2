@@ -318,6 +318,7 @@
     .setting-row { display:flex; align-items:center; justify-content:space-between; gap:14px; min-height:38px; }
     .setting-row > label:first-child { margin:0; display:block; }.setting-row > label:first-child small { display:block; color:var(--muted); margin-top:4px; font-size:9px; }
     .settings-switch { position:relative; width:36px; height:20px; flex:0 0 auto; }.settings-switch input { position:absolute; opacity:0; }.settings-switch span { display:block; width:36px; height:20px; border-radius:10px; background:#343d41; cursor:pointer; transition:.2s; }.settings-switch span::after { content:""; display:block; width:16px; height:16px; margin:2px; border-radius:50%; background:#8d999e; transition:.2s; }.settings-switch input:checked + span { background:#1d6b3a; }.settings-switch input:checked + span::after { transform:translateX(16px); background:var(--lime); }
+    .risk-subheading { margin:16px 0 10px; padding-top:14px; border-top:1px solid var(--line); color:var(--muted); font-size:10px; font-weight:600; }
     .coin-range { display:flex; flex-wrap:wrap; gap:7px; }.coin-choice input { position:absolute; opacity:0; }.coin-choice span { display:block; padding:7px 10px; border:1px solid var(--line); border-radius:4px; color:var(--muted); font-size:10px; cursor:pointer; }.coin-choice input:checked + span { color:var(--lime); border-color:#3a6548; background:#17271d; }
     .setting-inline { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
     .copy-settings-footer { position:sticky; bottom:0; padding:14px 18px; background:var(--surface); border-top:1px solid var(--line); }
@@ -363,6 +364,7 @@
     .related-card strong { display:block; margin:10px 0 6px; font-size:11px; }
     .related-card p { margin:0; color:var(--muted); font-size:10px; line-height:1.5; }
     #market-view > .page-head { grid-column:1; margin:0; padding:28px 32px 0; align-items:center; }
+    #market-view .market-layout > .manage-live-panel { margin:16px 0 0; }
     .my-copy-module { width:min(390px,38vw); min-width:340px; padding:14px 16px 12px; background:var(--surface); border:1px solid var(--line); border-radius:6px; }
     .my-copy-module-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:9px; }
     .my-copy-module-head strong { font-size:12px; }
@@ -375,9 +377,11 @@
     .my-copy-pnl div { flex:1; min-width:0; }
     .my-copy-pnl small { display:block; margin-bottom:3px; color:var(--muted); font-size:9px; }
     .my-copy-pnl b { color:var(--lime); font-size:12px; font-variant-numeric:tabular-nums; }
-    #market-view > .market-layout { grid-column:1; padding:0 32px 30px; }
+    #market-view > .market-layout { grid-column:1; display:block; padding:0 32px 30px; }
     #market-view.active > .market-layout { height:100%; overflow-y:auto; overscroll-behavior:contain; }
+    #market-view > .market-layout > section { margin-top:14px; }
     .market-subnav { display:flex; gap:24px; align-items:center; margin-top:18px; }
+    #market-view .market-layout > .market-subnav { margin:10px 0 0; }
     .market-subnav button { border:0; background:transparent; color:var(--muted); padding:0 0 8px; cursor:pointer; }
     .market-subnav button.active { color:var(--text); border-bottom:2px solid var(--lime); }
     .pagination { display:flex; justify-content:space-between; align-items:center; margin-top:16px; color:var(--muted); font-size:10px; }
@@ -453,6 +457,53 @@
     .recommended-trader-metric { text-align:right; }.recommended-trader-metric b { display:block; color:var(--lime); font-size:11px; }.recommended-trader-metric small { color:var(--muted); font-size:8px; }
     .recommended-arrow { color:var(--muted); font-size:18px; }
     .manage-head { display:flex; align-items:center; justify-content:space-between; }
+    .manage-live-panel { position:relative; margin:18px 0 16px; border:1px solid var(--line); border-radius:6px; background:var(--surface); overflow:hidden; }
+    .manage-live-head { min-height:48px; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:0 16px; border-bottom:1px solid var(--line); }
+    .manage-live-title { display:flex; align-items:center; gap:10px; min-width:0; }
+    .manage-live-title strong { font-size:13px; white-space:nowrap; }
+    .manage-live-title span { color:var(--muted); font-size:9px; white-space:nowrap; }
+    .live-pulse { width:7px; height:7px; flex:0 0 7px; border-radius:50%; background:var(--lime); box-shadow:0 0 0 4px rgba(34,253,115,.1); }
+    .manage-live-toggle { width:30px; height:30px; display:grid; place-items:center; flex:0 0 30px; border:0; background:transparent; color:var(--muted); cursor:pointer; }
+    .manage-live-toggle:hover { color:var(--text); }
+    .manage-live-toggle svg { width:16px; height:16px; transition:transform .2s ease; }
+    .manage-live-panel.collapsed .manage-live-toggle svg { transform:rotate(180deg); }
+    .manage-live-panel.collapsed { width:44px; }
+    .manage-live-panel.collapsed .manage-live-head { min-height:44px; justify-content:center; padding:0; border-bottom:0; }
+    .manage-live-panel.collapsed .manage-live-title { display:none; }
+    .manage-live-panel.collapsed .manage-live-body { display:none; }
+    .manage-live-panel:not(.collapsed) .manage-live-head { position:absolute; z-index:2; top:7px; right:7px; min-height:30px; padding:0; border:0; }
+    .manage-live-panel:not(.collapsed) .manage-live-toggle { background:#111719; }
+    .manage-live-body { display:grid; gap:6px; padding:7px; }
+    .manage-live-marquee { height:38px; display:flex; align-items:center; gap:12px; min-width:0; padding:7px 42px 7px 11px; border:1px solid #2c3732; border-radius:4px; background:#0c1410; overflow:hidden; }
+    .manage-live-label { display:flex; align-items:center; gap:6px; flex:0 0 auto; color:var(--lime); font-size:10px; font-weight:650; }
+    .manage-live-label svg { width:13px; height:13px; }
+    .manage-live-window { min-width:0; overflow:hidden; mask-image:linear-gradient(to right,transparent,#000 3%,#000 97%,transparent); }
+    .manage-live-track { display:flex; width:max-content; animation:manageLiveTicker 30s linear infinite; }
+    .manage-live-window:hover .manage-live-track { animation-play-state:paused; }
+    .manage-live-sequence { display:flex; align-items:center; gap:28px; padding-right:28px; white-space:nowrap; }
+    .manage-live-item { color:var(--soft); font-size:10px; }
+    .manage-live-item b { color:var(--text); font-weight:600; }
+    .manage-live-item em { color:var(--lime); font-style:normal; }
+    .manage-live-item em.short { color:var(--red); }
+    @keyframes manageLiveTicker { to { transform:translateX(-50%); } }
+    .manage-live-today { padding-left:9px; border-left:1px solid var(--line); color:var(--muted); font-weight:500; }
+    .manage-live-today b { color:var(--lime); font-weight:650; }
+    .manage-rank-row { display:flex; align-items:stretch; gap:6px; min-width:0; }
+    .manage-rank-head { flex:0 0 126px; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; margin:0; padding:0 11px; border-right:1px solid var(--line); }
+    .manage-rank-head strong { font-size:12px; }
+    .manage-rank-head span { margin-top:2px; color:var(--muted); font-size:9px; }
+    .manage-leaderboard { display:flex; flex:1; gap:6px; min-width:0; overflow-x:auto; scrollbar-width:none; }
+    .manage-leaderboard::-webkit-scrollbar { display:none; }
+    .manage-rank-card { flex:0 0 250px; display:grid; grid-template-columns:20px 26px minmax(0,1fr); align-items:center; gap:7px; min-width:0; padding:6px 9px; border:1px solid var(--line); border-radius:5px; background:var(--surface-2); }
+    .manage-rank-number { color:var(--muted); font-size:10px; font-variant-numeric:tabular-nums; }
+    .manage-rank-card:nth-child(-n+3) .manage-rank-number { color:var(--lime); font-weight:700; }
+    .manage-rank-avatar { width:26px; height:26px; display:grid; place-items:center; border-radius:50%; background:#26302b; color:var(--soft); font-size:8px; }
+    .manage-rank-info { min-width:0; display:flex; align-items:center; gap:7px; white-space:nowrap; }
+    .manage-rank-info strong,.manage-rank-info small,.manage-rank-follow { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .manage-rank-info strong { flex:0 1 72px; color:var(--soft); font-size:9px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
+    .manage-rank-follow { flex:1 1 auto; color:var(--muted); font-size:8px; }
+    .manage-rank-follow b { color:var(--text); font-weight:500; }
+    .manage-rank-info small { flex:0 0 auto; color:var(--lime); font-size:10px; font-weight:650; }
     .identity-strip { display:flex; align-items:center; gap:12px; padding:14px 16px; margin:20px 0 16px; border:1px solid var(--line); background:var(--surface); border-radius:6px; }
     .identity-strip strong { font-size:12px; }.identity-strip span { color:var(--muted); font-size:10px; }.identity-strip a { margin-left:auto; color:var(--lime); font-size:10px; }
     .manage-overview { display:grid; grid-template-columns:minmax(320px,.8fr) minmax(0,1.2fr); background:var(--surface); border:1px solid var(--line); border-radius:6px; margin-bottom:16px; overflow:hidden; }
@@ -608,6 +659,13 @@
       .manage-profit-panel { padding:16px 14px 12px; }
       .manage-profit-periods button { padding:0 7px; }
       .manage-profit-chart { height:120px; }
+      .manage-live-panel { margin-top:12px; }
+      .manage-live-head { padding:0 13px; }
+      .manage-live-title span { display:none; }
+      .manage-live-body { padding:7px; }
+      .manage-live-marquee { align-items:center; flex-direction:row; gap:9px; }
+      .manage-rank-head { flex-basis:104px; }
+      .manage-rank-card { flex-basis:230px; }
       .detail-overview { grid-template-columns:1fr; }
       .detail-data-grid { grid-template-columns:1fr; }
       #traderFeedSection { max-width:none; }
@@ -616,6 +674,7 @@
       .my-copy-module { width:100%; min-width:0; }
       .figma-feed { display:none; }
       #market-view > .page-head { padding:10px 0 14px; }
+      #market-view .market-layout > .manage-live-panel { margin:0 0 12px; }
       #market-view.feed-collapsed > .page-head { padding-left:50px; }
       #market-view > .market-layout { padding:0; }
       .terminal-grid { grid-template-columns:1fr; }
@@ -845,6 +904,39 @@
         $('#manageProfitAxis').innerHTML = series.labels.map(label => `<span>${label}</span>`).join('');
       }));
     }
+    const marketLayout = $('#market-view > .market-layout');
+    if(marketLayout && !$('#manageLivePanel')){
+      const liveSequence = `<span class="manage-live-item">2 秒前　<b>0x91D...6E2A</b> 跟随 Machi 开多 BTCUSDC　<em>2,500 USDC</em></span><span class="manage-live-item">8 秒前　<b>0x7A3...92C1</b> 跟随 岚序 加仓 ETHUSDC　<em>1,840 USDC</em></span><span class="manage-live-item">16 秒前　<b>0xB82...4D09</b> 反向跟随 零度研究 做空 SOLUSDC　<em class="short">980 USDC</em></span><span class="manage-live-item">25 秒前　<b>0x63C...7F12</b> 跟随 鲸落 平仓 ARBUSDC　<em>+126.40 USDC</em></span>`;
+      marketLayout.insertAdjacentHTML('afterbegin', `
+        <section class="manage-live-panel" id="manageLivePanel">
+          <div class="manage-live-head"><button class="manage-live-toggle" id="manageLiveToggle" title="收起到左侧" aria-label="收起实时跟单与收益榜" aria-expanded="true"><i data-lucide="chevron-left"></i></button></div>
+          <div class="manage-live-body">
+            <div class="manage-live-marquee"><span class="manage-live-label"><span class="live-pulse"></span>实时跟单 <span class="manage-live-today">今日 <b>+64</b></span></span><div class="manage-live-window"><div class="manage-live-track"><div class="manage-live-sequence">${liveSequence}</div><div class="manage-live-sequence" aria-hidden="true">${liveSequence}</div></div></div></div>
+            <div class="manage-rank-row"><div class="manage-rank-head"><strong>跟单者收益榜</strong><span>近 7 天 · USDC</span></div><div class="manage-leaderboard">
+              <div class="manage-rank-card"><span class="manage-rank-number">01</span><span class="manage-rank-avatar">91</span><span class="manage-rank-info"><strong title="0x91D8A34F829C6E2A">0x91D...6E2A</strong><span class="manage-rank-follow" title="跟随 Machi Big Brother">跟随 <b>Machi Big Brother</b></span><small>+3,842.60</small></span></div>
+              <div class="manage-rank-card"><span class="manage-rank-number">02</span><span class="manage-rank-avatar">7A</span><span class="manage-rank-info"><strong title="0x7A3F18D942BE92C1">0x7A3...92C1</strong><span class="manage-rank-follow" title="跟随 岚序">跟随 <b>岚序</b></span><small>+2,416.20</small></span></div>
+              <div class="manage-rank-card"><span class="manage-rank-number">03</span><span class="manage-rank-avatar">B8</span><span class="manage-rank-info"><strong title="0xB82E770A06D94D09">0xB82...4D09</strong><span class="manage-rank-follow" title="跟随 零度研究">跟随 <b>零度研究</b></span><small>+1,984.90</small></span></div>
+              <div class="manage-rank-card"><span class="manage-rank-number">04</span><span class="manage-rank-avatar">63</span><span class="manage-rank-info"><strong title="0x63C96AB182F17F12">0x63C...7F12</strong><span class="manage-rank-follow" title="跟随 鲸落">跟随 <b>鲸落</b></span><small>+1,342.40</small></span></div>
+              <div class="manage-rank-card"><span class="manage-rank-number">05</span><span class="manage-rank-avatar">92</span><span class="manage-rank-info"><strong title="0x92B74AC308D8C610">0x92B...C610</strong><span class="manage-rank-follow" title="跟随 Andrew P.">跟随 <b>Andrew P.</b></span><small>+926.10</small></span></div>
+              <div class="manage-rank-card"><span class="manage-rank-number">06</span><span class="manage-rank-avatar">4D</span><span class="manage-rank-info"><strong title="0x4D1C82F931AE77B0">0x4D1...77B0</strong><span class="manage-rank-follow" title="跟随 CryptoZebra">跟随 <b>CryptoZebra</b></span><small>+814.70</small></span></div>
+              <div class="manage-rank-card"><span class="manage-rank-number">07</span><span class="manage-rank-avatar">FE</span><span class="manage-rank-info"><strong title="0xFE120A73B51893C4">0xFE1...93C4</strong><span class="manage-rank-follow" title="跟随 北辰">跟随 <b>北辰</b></span><small>+702.35</small></span></div>
+              <div class="manage-rank-card"><span class="manage-rank-number">08</span><span class="manage-rank-avatar">8F</span><span class="manage-rank-info"><strong title="0x8F2A460B7C12E309">0x8F2...E309</strong><span class="manage-rank-follow" title="跟随 NeutralTrader">跟随 <b>NeutralTrader</b></span><small>+638.90</small></span></div>
+              <div class="manage-rank-card"><span class="manage-rank-number">09</span><span class="manage-rank-avatar">DE</span><span class="manage-rank-info"><strong title="0xDE9A284C631F41F0">0xDE9...41F0</strong><span class="manage-rank-follow" title="跟随 慢牛实验室">跟随 <b>慢牛实验室</b></span><small>+524.30</small></span></div>
+              <div class="manage-rank-card"><span class="manage-rank-number">10</span><span class="manage-rank-avatar">88</span><span class="manage-rank-info"><strong title="0x88E5C614092A43A1">0x88E...43A1</strong><span class="manage-rank-follow" title="跟随 长风">跟随 <b>长风</b></span><small>+431.60</small></span></div>
+            </div></div>
+          </div>
+        </section>`);
+      const livePanel = $('#manageLivePanel');
+      const marketSubnav = $('#market-view .market-subnav');
+      if(marketSubnav) livePanel.insertAdjacentElement('afterend', marketSubnav);
+      $('#manageLiveToggle').addEventListener('click', event => {
+        const collapsed = livePanel.classList.toggle('collapsed');
+        event.currentTarget.setAttribute('aria-expanded', String(!collapsed));
+        event.currentTarget.setAttribute('aria-label', collapsed ? '展开实时跟单与收益榜' : '收起实时跟单与收益榜');
+        event.currentTarget.setAttribute('title', collapsed ? '从左侧展开' : '收起到左侧');
+      });
+      renderIcons();
+    }
     const myCopyModule = $('.my-copy-module');
     if(myCopyModule){
       myCopyModule.innerHTML = `<div class="my-copy-module-head"><strong>我的跟单账户</strong><span>跟随交易员 3 人</span></div><div class="my-copy-module-body"><div class="my-copy-equity"><small>跟单账户权益（USDC）</small><b>13,482.60</b></div><div class="overview-actions"><button class="primary-btn equityTransfer">划转</button><button class="secondary-btn" data-go="manage">详情</button></div></div><div class="my-copy-pnl"><div><small>累计收益</small><b>+885.75 USDC</b></div><div><small>今日收益</small><b>+126.40 USDC</b></div></div>`;
@@ -975,7 +1067,42 @@
     $$('.detail-tab').forEach(btn => btn.addEventListener('click', () => { $$('.detail-tab').forEach(b => b.classList.toggle('active', b === btn)); $('#detailContent').innerHTML = btn.dataset.detail === 'positions' ? positions : history; }));
     const modal = $('#copyModal');
     const copySettingsContent = $('.copy-settings-content', modal);
-    const copySettingsSections = $$('.copy-settings-content > .settings-section', modal);
+    let copySettingsSections = $$('.copy-settings-content > .settings-section', modal);
+    const ratioSizeField = $('.ratio-size-field', modal);
+    if(ratioSizeField){
+      $('label', ratioSizeField).innerHTML = '投入金额 <span>USDC</span>';
+      const ratioAmountInput = $('input', ratioSizeField);
+      ratioAmountInput.value = '500';
+      ratioAmountInput.min = '10';
+      ratioAmountInput.removeAttribute('max');
+    }
+    const signalDelayField = $('#signalDelayInput')?.closest('.setting-field');
+    if(signalDelayField) $('label', signalDelayField).innerHTML = '信号最大有效时间 <span>秒</span>';
+    $$('.setting-row', modal).forEach(row => {
+      if(row.textContent.includes('同步交易者平仓')){
+        row.className = 'setting-field';
+        row.innerHTML = '<label>交易者平仓时</label><select><option selected>同步平仓</option><option>不自动平仓</option></select>';
+        return;
+      }
+      row.remove();
+    });
+    $$('.tp-sl-fields .setting-field', modal).forEach(field => {
+      const label = $('label', field);
+      label.firstChild.textContent = `${label.textContent.includes('止盈') ? '独立止盈比例' : '独立止损比例'} `;
+    });
+    $$('.copy-settings-content > .settings-section:last-of-type .setting-field', modal).forEach(field => {
+      const label = $('label', field);
+      if(label) label.firstChild.textContent = `${label.firstChild.textContent.trim()}（达到后自动停止） `;
+    });
+    const exitRiskSection = copySettingsSections.find(section => $('h4', section)?.textContent.trim() === '退出与异常处理');
+    const accountRiskSection = copySettingsSections.find(section => $('h4', section)?.textContent.trim() === '账户级风险保护');
+    if(exitRiskSection && accountRiskSection){
+      $('h4', exitRiskSection).textContent = '风险管理';
+      exitRiskSection.insertAdjacentHTML('beforeend', '<div class="risk-subheading">账户亏损保护</div>');
+      [...accountRiskSection.children].slice(1).forEach(child => exitRiskSection.appendChild(child));
+      accountRiskSection.remove();
+      copySettingsSections = $$('.copy-settings-content > .settings-section', modal);
+    }
     $('.mode-switch:not(.size-mode-switch)', modal)?.remove();
     if(copySettingsSections.length > 1){
       const advancedSettings = document.createElement('details');
@@ -1021,10 +1148,8 @@
       $('.ratio-size-field').hidden = btn.dataset.sizeMode !== 'ratio';
       $('#sizeModeDescription').textContent = btn.dataset.sizeMode === 'fixed'
         ? '交易员每次开仓时，按你设置的固定金额执行跟单。'
-        : '根据交易员本次开仓占账户权益的比例，使用你的可用权益同比例下单。';
+        : '输入计划投入的总金额，系统按交易员每笔仓位占比在该资金范围内跟单。';
     }));
-    $('#independentTpSl')?.addEventListener('change', e => { $('.tp-sl-fields').hidden = !e.target.checked; });
-    $('#abandonDelayedSignal')?.addEventListener('change', e => { $('#signalDelayInput').disabled = !e.target.checked; });
     const coinChoices = $$('.coin-choice input');
     coinChoices[0]?.addEventListener('change', e => coinChoices.slice(1).forEach(input => { input.checked = e.target.checked; }));
     function closeModal(){ modal.classList.remove('open'); }
@@ -1137,7 +1262,7 @@
       if(label === '带单首页') $('.nav-btn[data-view="market"]').click();
       if(label === '信息流') $('.nav-btn[data-view="intel"]').click();
       if(label === '我的跟单') $('.nav-btn[data-view="manage"]').click();
-      if(label === '我的订阅'){ $('.nav-btn[data-view="manage"]').click(); setTimeout(() => $$('#manage-view .data-panel')[1]?.scrollIntoView({behavior:'smooth'}), 80); }
+      if(label === '我的订阅'){ $('.nav-btn[data-view="manage"]').click(); setTimeout(() => { showManagePanel('subscriptionAccountsPanel'); $('#manage-view .manage-data-tabs')?.scrollIntoView({behavior:'smooth'}); }, 80); }
       if(label === '跟单指南') toast('跟单指南已打开');
     }));
     $$('.rail-account button').forEach(btn => btn.addEventListener('click', () => toast('资金划转面板已打开')));
@@ -1259,10 +1384,11 @@
     $$('.bookmark-btn').forEach(btn => btn.addEventListener('click', e => { e.stopPropagation(); btn.classList.toggle('saved'); toast(btn.classList.contains('saved') ? '已加入我的关注' : '已取消关注'); }));
 
     // Position records are kept separate from account-level copy settings.
-    const copyAccountPanel = $('#manage-view .data-panel:first-of-type');
-    const subscriptionAccountsPanel = $$('#manage-view .data-panel')[1];
+    const managePanels = $$('#manage-view .view-main > .data-panel');
+    const copyAccountPanel = managePanels.find(panel => $('.data-panel-head h2', panel)?.textContent.trim() === '我跟单的账户');
+    const subscriptionAccountsPanel = managePanels.find(panel => $('.data-panel-head h2', panel)?.textContent.trim() === '我订阅的账户');
     if(subscriptionAccountsPanel) subscriptionAccountsPanel.id = 'subscriptionAccountsPanel';
-    copyAccountPanel?.insertAdjacentHTML('afterend', `
+    if(copyAccountPanel && !$('#copyPositionsPanel')) copyAccountPanel.insertAdjacentHTML('afterend', `
       <section class="data-panel" id="copyPositionsPanel">
         <div class="data-panel-head"><h2>跟单仓位</h2><div class="copy-position-tabs"><button class="copy-position-tab active" data-position-view="current">当前跟单仓位</button><button class="copy-position-tab" data-position-view="history">历史跟单仓位</button></div></div>
         <div class="table-wrap position-table-view" data-position-panel="current"><table class="data-table"><thead><tr><th>关联带单用户 / 地址</th><th>合约</th><th>方向 / 杠杆</th><th>跟单仓位</th><th>开仓均价</th><th>标记价格</th><th>未实现盈亏</th><th>开仓时间</th></tr></thead><tbody>
@@ -1277,7 +1403,7 @@
         </tbody></table></div>
       </section>`);
     if(copyAccountPanel) copyAccountPanel.id = 'copyAccountsPanel';
-    copyAccountPanel?.insertAdjacentHTML('beforebegin', '<nav class="manage-data-tabs"><button class="manage-data-tab active" data-manage-panel="copyAccountsPanel">我跟单的账户</button><button class="manage-data-tab" data-manage-panel="copyPositionsPanel">跟单仓位</button><button class="manage-data-tab" data-manage-panel="subscriptionAccountsPanel">订阅账户</button></nav>');
+    if(copyAccountPanel && !$('#manage-view .manage-data-tabs')) copyAccountPanel.insertAdjacentHTML('beforebegin', '<nav class="manage-data-tabs"><button class="manage-data-tab active" data-manage-panel="copyAccountsPanel">我跟单的账户</button><button class="manage-data-tab" data-manage-panel="copyPositionsPanel">跟单仓位</button><button class="manage-data-tab" data-manage-panel="subscriptionAccountsPanel">订阅账户</button></nav>');
     const managePanelIds = ['copyAccountsPanel','copyPositionsPanel','subscriptionAccountsPanel'];
     function showManagePanel(target){
       $$('.manage-data-tab').forEach(tab => tab.classList.toggle('active', tab.dataset.managePanel === target));
@@ -1303,7 +1429,7 @@
       avatar.innerHTML = `<img src="${url}" alt="${name}">`;
       $('img',avatar).addEventListener('error', () => { avatar.textContent = name.slice(0,1); });
     }
-    $$('#manage-view .data-panel:first-of-type tbody tr, #subscriptionAccountsPanel tbody tr').forEach(row => {
+    $$('#copyAccountsPanel tbody tr, #subscriptionAccountsPanel tbody tr').forEach(row => {
       const cell = row.cells[0];
       const name = [...cell.childNodes].find(node => node.nodeType === Node.TEXT_NODE)?.textContent.trim();
       const address = $('small',cell)?.textContent || '';
@@ -1327,11 +1453,11 @@
     $('.figma-feed-head .icon-btn')?.addEventListener('click', () => { $('#market-view').classList.add('feed-collapsed'); toast('信息流侧栏已收起'); });
     $('.feed-expand')?.addEventListener('click', () => { $('#market-view').classList.remove('feed-collapsed'); toast('信息流侧栏已展开'); });
     $$('.equityTransfer').forEach(btn => btn.addEventListener('click', () => toast('资金划转面板已打开')));
-    $$('#manage-view .data-panel:first-of-type tbody .table-action').forEach(cell => {
+    $$('#copyAccountsPanel tbody .table-action').forEach(cell => {
       cell.innerHTML = '<button class="manageModify">修改</button><button class="managePause">暂停</button><button class="manageStop">停止跟单</button>';
     });
     function updateManageSummary(){
-      const rows = $$('#manage-view .data-panel:first-of-type tbody tr');
+      const rows = $$('#copyAccountsPanel tbody tr');
       const paused = rows.filter(row => row.querySelector('td:nth-child(5)')?.textContent.includes('暂停')).length;
       const summary = $('#manage-view .overview-stat:first-child');
       $('b', summary).textContent = rows.length;
