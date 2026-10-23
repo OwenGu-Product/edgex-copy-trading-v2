@@ -628,6 +628,21 @@
     .table-action button { border:0; background:transparent; color:var(--lime); padding:0 10px 0 0; cursor:pointer; font-size:11px; }
     .table-action .manageStop, .table-action .subscriptionCancel { color:var(--red); }
     .table-action .managePause { color:var(--soft); }
+    .position-action-modal { width:min(480px,100%); }
+    .position-action-body { padding:17px; }
+    .position-action-intro { margin:0 0 14px; color:var(--soft); font-size:11px; line-height:1.6; }
+    .position-action-options { display:grid; gap:9px; }
+    .position-action-option { position:relative; cursor:pointer; }
+    .position-action-option input { position:absolute; opacity:0; pointer-events:none; }
+    .position-action-option > span { display:block; padding:12px 13px; border:1px solid var(--line); border-radius:5px; background:var(--bg); transition:.16s; }
+    .position-action-option strong,.position-action-option small { display:block; }
+    .position-action-option strong { color:var(--soft); font-size:11px; font-weight:600; }
+    .position-action-option small { margin-top:5px; color:var(--muted); font-size:9px; line-height:1.55; }
+    .position-action-option input:checked + span { border-color:#3a6548; background:#17271d; box-shadow:inset 3px 0 var(--lime); }
+    .position-action-option input:checked + span strong { color:var(--lime); }
+    .position-action-footer { display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:0 17px 17px; }
+    .position-action-footer button { height:36px; }
+    .position-action-footer .primary-btn:disabled { opacity:.4; cursor:not-allowed; }
     .copy-position-tabs { display:flex; gap:22px; }
     .copy-position-tab { border:0; border-bottom:2px solid transparent; background:transparent; color:var(--muted); padding:7px 0; cursor:pointer; font-size:12px; }
     .copy-position-tab.active { color:var(--text); border-bottom-color:var(--lime); }
@@ -1105,14 +1120,15 @@
     const slippageField = signalDelayField?.previousElementSibling;
     signalDelayField?.remove();
     slippageField?.classList.add('slippage-setting-field');
-    $$('.setting-row', modal).forEach(row => {
-      if(row.textContent.includes('同步交易者平仓')){
-        row.className = 'setting-field';
-        row.innerHTML = '<label>交易者平仓时</label><select><option selected>同步平仓</option><option>不自动平仓</option></select>';
-        return;
-      }
-      row.remove();
-    });
+    const slippageInput = $('input', slippageField);
+    if(slippageInput) slippageInput.value = '';
+    $$('.setting-row', modal).forEach(row => row.remove());
+    const liquidationField = $$('.setting-field', modal).find(field => field.textContent.includes('交易者爆仓后的处理方式'));
+    const liquidationSelect = $('select', liquidationField);
+    if(liquidationSelect){
+      liquidationSelect.insertAdjacentHTML('afterbegin', '<option value="" disabled>请选择处理方式</option>');
+      liquidationSelect.value = '';
+    }
     $$('.tp-sl-fields .setting-field', modal).forEach(field => {
       const label = $('label', field);
       label.firstChild.textContent = `${label.textContent.includes('止盈') ? '独立止盈比例' : '独立止损比例'} `;
@@ -1498,29 +1514,81 @@
     function updateManageSummary(){
       const rows = $$('#copyAccountsPanel tbody tr');
       const paused = rows.filter(row => row.querySelector('td:nth-child(5)')?.textContent.includes('暂停')).length;
+      const stopping = rows.filter(row => row.querySelector('td:nth-child(5)')?.textContent.includes('停止中')).length;
+      const running = rows.length - paused - stopping;
       const summary = $('#manage-view .overview-stat:first-child');
       $('b', summary).textContent = rows.length;
-      $('span', summary).textContent = `运行中 ${rows.length - paused} · 已暂停 ${paused}`;
+      $('span', summary).textContent = `运行中 ${running} · 暂停 ${paused}${stopping ? ` · 停止中 ${stopping}` : ''}`;
     }
+    document.body.insertAdjacentHTML('beforeend', '<div class="modal-mask" id="positionActionModal"><div class="modal position-action-modal"><div class="modal-head"><h3 id="positionActionTitle">暂停跟单</h3><button class="icon-btn" id="closePositionAction" aria-label="关闭"><i data-lucide="x"></i></button></div><div class="position-action-body"><p class="position-action-intro" id="positionActionIntro"></p><div class="position-action-options"><label class="position-action-option"><input type="radio" name="positionActionPolicy" value="close"><span><strong id="positionActionCloseLabel"></strong><small>立即以市价关闭该交易员对应的全部跟随仓位。</small></span></label><label class="position-action-option"><input type="radio" name="positionActionPolicy" value="wait"><span><strong id="positionActionWaitLabel"></strong><small>停止跟随新开仓，现有仓位继续跟随交易员减仓和平仓，全部结束后完成操作。</small></span></label></div></div><div class="position-action-footer"><button class="secondary-btn" id="cancelPositionAction">取消</button><button class="primary-btn" id="confirmPositionAction" disabled>确认</button></div></div></div>');
+    renderIcons();
+    const positionActionModal = $('#positionActionModal');
+    let pendingManageAction = null;
+    function traderPositions(accountRow){
+      const traderName = $('strong', accountRow.cells[0])?.textContent.trim();
+      return $$('#copyPositionsPanel [data-position-panel="current"] tbody tr').filter(row => traderName && row.textContent.includes(traderName));
+    }
+    function setManageStatus(row,status){
+      const statusCell = row.querySelector('td:nth-child(5)');
+      statusCell.textContent = status;
+      statusCell.classList.toggle('status-live', status.includes('运行中'));
+      statusCell.classList.toggle('status-warn', status === '暂停中' || status === '停止中');
+    }
+    function closePositionAction(){
+      positionActionModal.classList.remove('open');
+      pendingManageAction = null;
+    }
+    function applyManageAction(action,row,policy,positions){
+      const pauseButton = $('.managePause', row);
+      if(policy === 'close') positions.forEach(position => position.remove());
+      if(action === 'pause'){
+        setManageStatus(row, policy === 'close' ? '已暂停' : '暂停中');
+        pauseButton.textContent = policy === 'close' ? '恢复' : '取消暂停';
+        toast(policy === 'close' ? '当前跟随仓位已关闭，策略已暂停' : '将在当前仓位跟随结束后暂停');
+      } else if(policy === 'close'){
+        row.remove();
+        toast('当前跟随仓位已关闭，跟单已停止');
+      } else {
+        setManageStatus(row,'停止中');
+        $$('button',row).forEach(button => { button.disabled = true; });
+        $('.manageStop',row).textContent = '停止中';
+        toast('将在当前仓位跟随结束后停止跟单');
+      }
+      updateManageSummary();
+    }
+    function requestManageAction(action,row){
+      const positions = traderPositions(row);
+      if(!positions.length){ applyManageAction(action,row,'close',positions); return; }
+      const actionText = action === 'pause' ? '暂停' : '停止';
+      pendingManageAction = { action,row,positions };
+      $('#positionActionTitle').textContent = `${actionText}跟单`;
+      $('#positionActionIntro').textContent = `当前有 ${positions.length} 个跟随该交易员的仓位，请选择仓位处理方式。`;
+      $('#positionActionCloseLabel').textContent = `关闭当前跟随仓位并${actionText}跟单`;
+      $('#positionActionWaitLabel').textContent = `当前仓位跟随结束后${actionText}跟单`;
+      $$('input[name="positionActionPolicy"]',positionActionModal).forEach(input => { input.checked = false; });
+      $('#confirmPositionAction').disabled = true;
+      positionActionModal.classList.add('open');
+    }
+    $$('input[name="positionActionPolicy"]',positionActionModal).forEach(input => input.addEventListener('change', () => { $('#confirmPositionAction').disabled = false; }));
+    $('#closePositionAction').addEventListener('click',closePositionAction);
+    $('#cancelPositionAction').addEventListener('click',closePositionAction);
+    positionActionModal.addEventListener('click',event => { if(event.target === positionActionModal) closePositionAction(); });
+    $('#confirmPositionAction').addEventListener('click',() => {
+      const policy = $('input[name="positionActionPolicy"]:checked',positionActionModal)?.value;
+      if(!policy || !pendingManageAction) return;
+      const { action,row,positions } = pendingManageAction;
+      closePositionAction();
+      applyManageAction(action,row,policy,positions);
+    });
     $$('.manageModify').forEach(btn => btn.addEventListener('click', () => openModal('follow', true)));
     $$('.managePause').forEach(btn => btn.addEventListener('click', () => {
-      const paused = btn.textContent === '恢复';
       const row = btn.closest('tr');
-      row.querySelector('td:nth-child(5)').textContent = paused ? '● 运行中' : '已暂停';
-      row.querySelector('td:nth-child(5)').classList.toggle('status-live', paused);
-      btn.textContent = paused ? '暂停' : '恢复';
-      updateManageSummary();
-      toast(paused ? '跟单策略已恢复' : '跟单策略已暂停');
+      const restoring = btn.textContent === '恢复' || btn.textContent === '取消暂停';
+      if(restoring){ setManageStatus(row,'● 运行中'); btn.textContent = '暂停'; updateManageSummary(); toast('跟单策略已恢复'); return; }
+      requestManageAction('pause',row);
     }));
     $$('.manageStop').forEach(btn => btn.addEventListener('click', () => {
-      const accountRow = btn.closest('tr');
-      const traderName = $('strong',accountRow.cells[0])?.textContent.trim();
-      $$('#copyPositionsPanel [data-position-panel="current"] tbody tr').forEach(row => {
-        if(traderName && row.textContent.includes(traderName)) row.remove();
-      });
-      accountRow.remove();
-      updateManageSummary();
-      toast('已停止跟单并从列表移除');
+      requestManageAction('stop',btn.closest('tr'));
     }));
     $$('#subscriptionAccountsPanel tbody tr').forEach(row => {
       const notifyCell = row.children[2];
