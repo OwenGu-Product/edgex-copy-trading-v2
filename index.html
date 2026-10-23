@@ -520,6 +520,8 @@
     .manage-live-item b { color:var(--text); font-weight:600; }
     .manage-live-item em { color:var(--lime); font-style:normal; }
     .manage-live-item em.short { color:var(--red); }
+    .trader-detail-link { border:0; padding:0; background:transparent; color:var(--text); font:inherit; font-weight:600; cursor:pointer; }
+    .trader-detail-link:hover, .trader-detail-link:focus-visible { color:var(--lime); text-decoration:underline; text-underline-offset:3px; }
     @keyframes manageLiveTicker { to { transform:translateX(-50%); } }
     .manage-live-today { padding-left:9px; border-left:1px solid var(--line); color:var(--muted); font-weight:500; }
     .manage-live-today b { color:var(--lime); font-weight:650; }
@@ -956,23 +958,23 @@
     }
     const marketLayout = $('#market-view > .market-layout');
     if(marketLayout && !$('#manageLivePanel')){
-      const liveSequence = `<span class="manage-live-item">2 秒前　<b>0x91D...6E2A</b> 跟随 Machi 开多 BTCUSDC　<em>2,500 USDC</em></span><span class="manage-live-item">8 秒前　<b>0x7A3...92C1</b> 跟随 岚序 加仓 ETHUSDC　<em>1,840 USDC</em></span><span class="manage-live-item">16 秒前　<b>0xB82...4D09</b> 反向跟随 零度研究 做空 SOLUSDC　<em class="short">980 USDC</em></span><span class="manage-live-item">25 秒前　<b>0x63C...7F12</b> 跟随 鲸落 平仓 ARBUSDC　<em>+126.40 USDC</em></span>`;
+      const liveSequence = `<span class="manage-live-item">2 秒前　<b>0x91D...6E2A</b> 跟随 <button class="trader-detail-link" data-open-trader="Machi Big Brother">Machi Big Brother</button> 开多 BTCUSDC　<em>2,500 USDC</em></span><span class="manage-live-item">8 秒前　<b>0x7A3...92C1</b> 跟随 <button class="trader-detail-link" data-open-trader="岚序">岚序</button> 加仓 ETHUSDC　<em>1,840 USDC</em></span><span class="manage-live-item">16 秒前　<b>0xB82...4D09</b> 反向跟随 <button class="trader-detail-link" data-open-trader="零度研究">零度研究</button> 做空 SOLUSDC　<em class="short">980 USDC</em></span><span class="manage-live-item">25 秒前　<b>0x63C...7F12</b> 跟随 <button class="trader-detail-link" data-open-trader="鲸落">鲸落</button> 平仓 ARBUSDC　<em>+126.40 USDC</em></span>`;
       marketLayout.insertAdjacentHTML('afterbegin', `
         <section class="manage-live-panel" id="manageLivePanel">
           <div class="manage-live-head"><button class="manage-live-toggle" id="manageLiveToggle" title="收起到左侧" aria-label="收起实时跟单与收益榜" aria-expanded="true"><i data-lucide="chevron-left"></i></button></div>
           <div class="manage-live-body">
             <div class="manage-live-marquee"><span class="manage-live-label"><span class="live-pulse"></span>实时跟单 <span class="manage-live-today">今日 <b>+64</b></span></span><div class="manage-live-window"><div class="manage-live-track"><div class="manage-live-sequence">${liveSequence}</div><div class="manage-live-sequence" aria-hidden="true">${liveSequence}</div></div></div></div>
             <div class="manage-rank-row"><div class="manage-rank-head"><strong>跟单者收益榜</strong><span>近 7 天 · USDC</span></div><div class="manage-leaderboard">
-              <div class="manage-rank-card"><span class="manage-rank-number">01</span><span class="manage-rank-avatar">91</span><span class="manage-rank-info"><strong title="0x91D8A34F829C6E2A">0x91D...6E2A</strong><span class="manage-rank-follow" title="跟随 Machi Big Brother">跟随 <b>Machi Big Brother</b></span><small>+3,842.60</small></span></div>
-              <div class="manage-rank-card"><span class="manage-rank-number">02</span><span class="manage-rank-avatar">7A</span><span class="manage-rank-info"><strong title="0x7A3F18D942BE92C1">0x7A3...92C1</strong><span class="manage-rank-follow" title="跟随 岚序">跟随 <b>岚序</b></span><small>+2,416.20</small></span></div>
-              <div class="manage-rank-card"><span class="manage-rank-number">03</span><span class="manage-rank-avatar">B8</span><span class="manage-rank-info"><strong title="0xB82E770A06D94D09">0xB82...4D09</strong><span class="manage-rank-follow" title="跟随 零度研究">跟随 <b>零度研究</b></span><small>+1,984.90</small></span></div>
-              <div class="manage-rank-card"><span class="manage-rank-number">04</span><span class="manage-rank-avatar">63</span><span class="manage-rank-info"><strong title="0x63C96AB182F17F12">0x63C...7F12</strong><span class="manage-rank-follow" title="跟随 鲸落">跟随 <b>鲸落</b></span><small>+1,342.40</small></span></div>
-              <div class="manage-rank-card"><span class="manage-rank-number">05</span><span class="manage-rank-avatar">92</span><span class="manage-rank-info"><strong title="0x92B74AC308D8C610">0x92B...C610</strong><span class="manage-rank-follow" title="跟随 Andrew P.">跟随 <b>Andrew P.</b></span><small>+926.10</small></span></div>
-              <div class="manage-rank-card"><span class="manage-rank-number">06</span><span class="manage-rank-avatar">4D</span><span class="manage-rank-info"><strong title="0x4D1C82F931AE77B0">0x4D1...77B0</strong><span class="manage-rank-follow" title="跟随 CryptoZebra">跟随 <b>CryptoZebra</b></span><small>+814.70</small></span></div>
-              <div class="manage-rank-card"><span class="manage-rank-number">07</span><span class="manage-rank-avatar">FE</span><span class="manage-rank-info"><strong title="0xFE120A73B51893C4">0xFE1...93C4</strong><span class="manage-rank-follow" title="跟随 北辰">跟随 <b>北辰</b></span><small>+702.35</small></span></div>
-              <div class="manage-rank-card"><span class="manage-rank-number">08</span><span class="manage-rank-avatar">8F</span><span class="manage-rank-info"><strong title="0x8F2A460B7C12E309">0x8F2...E309</strong><span class="manage-rank-follow" title="跟随 NeutralTrader">跟随 <b>NeutralTrader</b></span><small>+638.90</small></span></div>
-              <div class="manage-rank-card"><span class="manage-rank-number">09</span><span class="manage-rank-avatar">DE</span><span class="manage-rank-info"><strong title="0xDE9A284C631F41F0">0xDE9...41F0</strong><span class="manage-rank-follow" title="跟随 慢牛实验室">跟随 <b>慢牛实验室</b></span><small>+524.30</small></span></div>
-              <div class="manage-rank-card"><span class="manage-rank-number">10</span><span class="manage-rank-avatar">88</span><span class="manage-rank-info"><strong title="0x88E5C614092A43A1">0x88E...43A1</strong><span class="manage-rank-follow" title="跟随 长风">跟随 <b>长风</b></span><small>+431.60</small></span></div>
+              <div class="manage-rank-card"><span class="manage-rank-number">01</span><span class="manage-rank-avatar">91</span><span class="manage-rank-info"><strong title="0x91D8A34F829C6E2A">0x91D...6E2A</strong><span class="manage-rank-follow" title="跟随 Machi Big Brother">跟随 <button class="trader-detail-link" data-open-trader="Machi Big Brother">Machi Big Brother</button></span><small>+3,842.60</small></span></div>
+              <div class="manage-rank-card"><span class="manage-rank-number">02</span><span class="manage-rank-avatar">7A</span><span class="manage-rank-info"><strong title="0x7A3F18D942BE92C1">0x7A3...92C1</strong><span class="manage-rank-follow" title="跟随 岚序">跟随 <button class="trader-detail-link" data-open-trader="岚序">岚序</button></span><small>+2,416.20</small></span></div>
+              <div class="manage-rank-card"><span class="manage-rank-number">03</span><span class="manage-rank-avatar">B8</span><span class="manage-rank-info"><strong title="0xB82E770A06D94D09">0xB82...4D09</strong><span class="manage-rank-follow" title="跟随 零度研究">跟随 <button class="trader-detail-link" data-open-trader="零度研究">零度研究</button></span><small>+1,984.90</small></span></div>
+              <div class="manage-rank-card"><span class="manage-rank-number">04</span><span class="manage-rank-avatar">63</span><span class="manage-rank-info"><strong title="0x63C96AB182F17F12">0x63C...7F12</strong><span class="manage-rank-follow" title="跟随 鲸落">跟随 <button class="trader-detail-link" data-open-trader="鲸落">鲸落</button></span><small>+1,342.40</small></span></div>
+              <div class="manage-rank-card"><span class="manage-rank-number">05</span><span class="manage-rank-avatar">92</span><span class="manage-rank-info"><strong title="0x92B74AC308D8C610">0x92B...C610</strong><span class="manage-rank-follow" title="跟随 Andrew P.">跟随 <button class="trader-detail-link" data-open-trader="Andrew P.">Andrew P.</button></span><small>+926.10</small></span></div>
+              <div class="manage-rank-card"><span class="manage-rank-number">06</span><span class="manage-rank-avatar">4D</span><span class="manage-rank-info"><strong title="0x4D1C82F931AE77B0">0x4D1...77B0</strong><span class="manage-rank-follow" title="跟随 CryptoZebra">跟随 <button class="trader-detail-link" data-open-trader="CryptoZebra">CryptoZebra</button></span><small>+814.70</small></span></div>
+              <div class="manage-rank-card"><span class="manage-rank-number">07</span><span class="manage-rank-avatar">FE</span><span class="manage-rank-info"><strong title="0xFE120A73B51893C4">0xFE1...93C4</strong><span class="manage-rank-follow" title="跟随 北辰">跟随 <button class="trader-detail-link" data-open-trader="北辰">北辰</button></span><small>+702.35</small></span></div>
+              <div class="manage-rank-card"><span class="manage-rank-number">08</span><span class="manage-rank-avatar">8F</span><span class="manage-rank-info"><strong title="0x8F2A460B7C12E309">0x8F2...E309</strong><span class="manage-rank-follow" title="跟随 NeutralTrader">跟随 <button class="trader-detail-link" data-open-trader="NeutralTrader">NeutralTrader</button></span><small>+638.90</small></span></div>
+              <div class="manage-rank-card"><span class="manage-rank-number">09</span><span class="manage-rank-avatar">DE</span><span class="manage-rank-info"><strong title="0xDE9A284C631F41F0">0xDE9...41F0</strong><span class="manage-rank-follow" title="跟随 慢牛实验室">跟随 <button class="trader-detail-link" data-open-trader="慢牛实验室">慢牛实验室</button></span><small>+524.30</small></span></div>
+              <div class="manage-rank-card"><span class="manage-rank-number">10</span><span class="manage-rank-avatar">88</span><span class="manage-rank-info"><strong title="0x88E5C614092A43A1">0x88E...43A1</strong><span class="manage-rank-follow" title="跟随 长风">跟随 <button class="trader-detail-link" data-open-trader="长风">长风</button></span><small>+431.60</small></span></div>
             </div></div>
           </div>
         </section>`);
@@ -984,6 +986,11 @@
         event.currentTarget.setAttribute('aria-expanded', String(!collapsed));
         event.currentTarget.setAttribute('aria-label', collapsed ? '展开实时跟单与收益榜' : '收起实时跟单与收益榜');
         event.currentTarget.setAttribute('title', collapsed ? '从左侧展开' : '收起到左侧');
+      });
+      livePanel.addEventListener('click', event => {
+        const traderLink = event.target.closest('[data-open-trader]');
+        if(!traderLink) return;
+        showDetail();
       });
       renderIcons();
     }
