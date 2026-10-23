@@ -981,7 +981,7 @@
       myCopyModule.innerHTML = `<div class="my-copy-module-head"><strong>我的跟单账户</strong><span>跟随交易员 3 人</span></div><div class="my-copy-module-body"><div class="my-copy-equity"><small>跟单账户权益（USDC）</small><b>13,482.60</b></div><div class="overview-actions"><button class="primary-btn equityTransfer">划转</button><button class="secondary-btn" data-go="manage">详情</button></div></div><div class="my-copy-pnl"><div><small>累计收益</small><b>+885.75 USDC</b></div><div><small>今日收益</small><b>+126.40 USDC</b></div></div>`;
       renderIcons();
     }
-    $('#performanceSection .detail-kpis')?.insertAdjacentHTML('beforeend', '<div class="detail-kpi"><small>跟单用户收益（USDC）</small><b style="color:var(--lime)">+36,842.90</b></div>');
+    $('#performanceSection .detail-kpis')?.insertAdjacentHTML('beforeend', '<div class="detail-kpi"><small>跟单用户收益（USDC）</small><b style="color:var(--lime)">+36,842.90</b></div><div class="detail-kpi"><small>最近交易时间</small><b>2026-10-20 14:10</b></div>');
     $('.detail-page-tabs')?.insertAdjacentHTML('beforeend', '<button class="detail-page-tab" data-target="followersSection">跟单用户</button>');
     const detailFeedTab = $('.detail-page-tab[data-target="traderFeedSection"]');
     if(detailFeedTab) $('.detail-page-tabs')?.appendChild(detailFeedTab);
