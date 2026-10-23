@@ -393,6 +393,10 @@
     .my-copy-module-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:9px; }
     .my-copy-module-head strong { font-size:12px; }
     .my-copy-module-head span { color:var(--muted); font-size:10px; }
+    .my-copy-title { display:flex; align-items:center; gap:5px; }
+    .asset-visibility-toggle { width:20px; height:20px; padding:0; border:0; background:transparent; color:var(--muted); display:grid; place-items:center; cursor:pointer; border-radius:4px; }
+    .asset-visibility-toggle:hover { color:var(--text); background:var(--surface-3); }
+    .asset-visibility-toggle i, .asset-visibility-toggle svg { width:13px; height:13px; }
     .my-copy-module-body { display:flex; align-items:end; justify-content:space-between; gap:16px; }
     .my-copy-equity small { display:block; color:var(--muted); font-size:9px; margin-bottom:3px; }
     .my-copy-equity b { font-size:24px; font-variant-numeric:tabular-nums; }
@@ -401,6 +405,13 @@
     .my-copy-pnl div { flex:1; min-width:0; }
     .my-copy-pnl small { display:block; margin-bottom:3px; color:var(--muted); font-size:9px; }
     .my-copy-pnl b { color:var(--lime); font-size:12px; font-variant-numeric:tabular-nums; }
+    .metric-label { display:flex!important; align-items:center; gap:4px; width:max-content; }
+    .metric-help { width:12px; height:12px; border:0; padding:0; background:transparent; color:#667277; display:grid; place-items:center; cursor:help; position:relative; }
+    .metric-help i, .metric-help svg { width:9px; height:9px; stroke-width:1.8; }
+    .metric-help:hover, .metric-help:focus-visible { color:var(--soft); }
+    .metric-help::after { content:attr(data-tooltip); position:absolute; z-index:45; left:50%; bottom:calc(100% + 7px); width:258px; padding:8px 10px; color:var(--soft); background:#20272a; border:1px solid #394348; border-radius:4px; font-size:10px; font-weight:400; line-height:1.5; text-align:left; white-space:normal; opacity:0; visibility:hidden; pointer-events:none; transform:translate(-50%,4px); transition:.15s; box-shadow:0 8px 24px rgba(0,0,0,.28); }
+    .metric-help:hover::after, .metric-help:focus-visible::after { opacity:1; visibility:visible; transform:translate(-50%,0); }
+    .private-asset-value { min-width:4ch; }
     #market-view > .market-layout { grid-column:1; display:block; padding:0 32px 30px; }
     #market-view.active > .market-layout { height:100%; overflow-y:auto; overscroll-behavior:contain; }
     #market-view > .market-layout > section { margin-top:14px; }
@@ -978,8 +989,16 @@
     }
     const myCopyModule = $('.my-copy-module');
     if(myCopyModule){
-      myCopyModule.innerHTML = `<div class="my-copy-module-head"><strong>我的跟单账户</strong><span>跟随交易员 3 人</span></div><div class="my-copy-module-body"><div class="my-copy-equity"><small>跟单账户权益（USDC）</small><b>13,482.60</b></div><div class="overview-actions"><button class="primary-btn equityTransfer">划转</button><button class="secondary-btn" data-go="manage">详情</button></div></div><div class="my-copy-pnl"><div><small>累计收益</small><b>+885.75 USDC</b></div><div><small>今日收益</small><b>+126.40 USDC</b></div></div>`;
+      myCopyModule.innerHTML = `<div class="my-copy-module-head"><div class="my-copy-title"><strong>我的跟单账户</strong><button class="asset-visibility-toggle" id="toggleCopyAssets" aria-label="隐藏资产及盈亏" title="隐藏资产及盈亏"><i data-lucide="eye"></i></button></div><span>跟随交易员 3 人</span></div><div class="my-copy-module-body"><div class="my-copy-equity"><small>跟单账户权益（USDC）</small><b class="private-asset-value" data-value="13,482.60">13,482.60</b></div><div class="overview-actions"><button class="primary-btn equityTransfer">划转</button><button class="secondary-btn" data-go="manage">详情</button></div></div><div class="my-copy-pnl"><div><small class="metric-label">累计收益<button class="metric-help" aria-label="累计收益计算说明" data-tooltip="已实现盈亏 + 未实现盈亏 - 手续费 - 资金费"><i data-lucide="info"></i></button></small><b class="private-asset-value" data-value="+885.75 USDC">+885.75 USDC</b></div><div><small class="metric-label">今日收益<button class="metric-help" aria-label="今日收益计算说明" data-tooltip="已实现盈亏 + 未实现盈亏 - 手续费 - 资金费"><i data-lucide="info"></i></button></small><b class="private-asset-value" data-value="+126.40 USDC">+126.40 USDC</b></div></div>`;
       renderIcons();
+      $('#toggleCopyAssets').addEventListener('click', event => {
+        const hidden = myCopyModule.classList.toggle('assets-hidden');
+        $$('.private-asset-value', myCopyModule).forEach(value => { value.textContent = hidden ? '****' : value.dataset.value; });
+        event.currentTarget.setAttribute('aria-label', hidden ? '显示资产及盈亏' : '隐藏资产及盈亏');
+        event.currentTarget.setAttribute('title', hidden ? '显示资产及盈亏' : '隐藏资产及盈亏');
+        event.currentTarget.innerHTML = `<i data-lucide="${hidden ? 'eye-off' : 'eye'}"></i>`;
+        renderIcons();
+      });
     }
     $('#performanceSection .detail-kpis')?.insertAdjacentHTML('beforeend', '<div class="detail-kpi"><small>跟单用户收益（USDC）</small><b style="color:var(--lime)">+36,842.90</b></div><div class="detail-kpi"><small>最近交易时间</small><b>2026-10-20 14:10</b></div>');
     $('.detail-page-tabs')?.insertAdjacentHTML('beforeend', '<button class="detail-page-tab" data-target="followersSection">跟单用户</button>');
