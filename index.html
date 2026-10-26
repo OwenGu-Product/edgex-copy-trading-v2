@@ -254,6 +254,19 @@
     .field input:focus { border-color:var(--lime-dark); }
     .risk-note { color:var(--muted); font-size:10px; line-height:1.5; padding:10px; background:var(--bg); margin-bottom:14px; }
     .modal-footer { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .subscription-settings-modal .modal-body { padding:0; }
+    .subscription-target { padding:14px 17px; border-bottom:1px solid var(--line); }
+    .subscription-target small { display:block; color:var(--muted); font-size:9px; margin-bottom:4px; }
+    .subscription-target strong { font-size:13px; }
+    .subscription-setting-section { padding:15px 17px; border-bottom:1px solid var(--line); }
+    .subscription-setting-section h4 { margin:0 0 10px; font-size:11px; }
+    .subscription-choice-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .subscription-choice { position:relative; }
+    .subscription-choice input { position:absolute; opacity:0; pointer-events:none; }
+    .subscription-choice span { min-height:38px; display:flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:4px; color:var(--muted); font-size:10px; cursor:pointer; }
+    .subscription-choice input:checked + span { color:var(--lime); border-color:#3a6548; background:#17271d; }
+    .subscription-settings-error { min-height:18px; padding:8px 17px 0; color:var(--red); font-size:9px; }
+    .subscription-settings-footer { padding:12px 17px 16px; }
     .quick-trade-modal { width:min(420px,100%); max-height:calc(100vh - 32px); display:flex; flex-direction:column; }
     .quick-trade-modal .modal-body { overflow-y:auto; }
     .quick-market-summary { display:flex; align-items:center; gap:10px; padding:12px; margin-bottom:14px; border:1px solid var(--line); border-radius:5px; background:var(--bg); }
@@ -1260,15 +1273,50 @@
         author.insertAdjacentHTML('beforeend', `<button class="source-subscribe-btn" data-creator="${creator}">订阅</button>`);
       }
     });
-    $$('.source-subscribe-btn').forEach(btn => btn.addEventListener('click', () => {
-      const nextSubscribed = !btn.classList.contains('subscribed');
-      $$(`.source-subscribe-btn[data-creator="${btn.dataset.creator}"]`).forEach(item => {
-        item.classList.toggle('subscribed', nextSubscribed);
-        item.textContent = nextSubscribed ? '已订阅' : '订阅';
-      });
-      toast(nextSubscribed ? `已订阅 ${btn.dataset.creator} 的观点` : `已取消订阅 ${btn.dataset.creator}`);
-    }));
-    $$('.subscribeAction').forEach(btn => btn.addEventListener('click', () => toast('订阅设置已更新')));
+    document.body.insertAdjacentHTML('beforeend', `<div class="modal-mask" id="subscriptionSettingsModal"><div class="modal subscription-settings-modal"><div class="modal-head"><h3 id="subscriptionSettingsTitle">订阅设置</h3><button class="icon-btn" id="closeSubscriptionSettings" aria-label="关闭"><i data-lucide="x"></i></button></div><div class="modal-body"><div class="subscription-target"><small>订阅账户</small><strong id="subscriptionTargetName">--</strong></div><section class="subscription-setting-section"><h4>订阅内容</h4><div class="subscription-choice-grid"><label class="subscription-choice"><input type="checkbox" name="subscriptionContent" value="trade"><span>交易提醒</span></label><label class="subscription-choice"><input type="checkbox" name="subscriptionContent" value="opinion"><span>观点提醒</span></label></div></section><section class="subscription-setting-section"><h4>通知方式</h4><div class="subscription-choice-grid"><label class="subscription-choice"><input type="checkbox" name="subscriptionNotify" value="inapp"><span>站内通知</span></label><label class="subscription-choice"><input type="checkbox" name="subscriptionNotify" value="push"><span>App Push</span></label></div></section><div class="subscription-settings-error" id="subscriptionSettingsError"></div><div class="modal-footer subscription-settings-footer"><button class="secondary-btn" id="cancelSubscriptionSettings">取消</button><button class="primary-btn" id="saveSubscriptionSettings">保存订阅</button></div></div></div></div>`);
+    const subscriptionSettingsModal = $('#subscriptionSettingsModal');
+    let subscriptionContext = {};
+    function subscriptionTargetName(trigger,row){
+      if(row){ const cell=row.children[0], address=$('small',cell)?.textContent || ''; return cell.textContent.replace(address,'').trim() || '订阅账户'; }
+      if(trigger.dataset.creator) return trigger.dataset.creator;
+      const traderCard = trigger.closest('.trader-card');
+      if(traderCard) return $('.info strong',traderCard)?.childNodes[0]?.textContent.trim() || '带单账户';
+      const detailProfile = trigger.closest('.detail-profile');
+      if(detailProfile) return $('.detail-profile-main h1',detailProfile)?.childNodes[0]?.textContent.trim() || '带单账户';
+      return $('.who strong',trigger.closest('.news-card'))?.textContent.trim() || '订阅账户';
+    }
+    function openSubscriptionSettings(trigger,row=null){
+      const editing = Boolean(row) || trigger.classList.contains('subscribed') || trigger.textContent.includes('已订阅');
+      const content = row?.children[1]?.textContent || '';
+      const notify = row?.children[2]?.textContent || '';
+      subscriptionContext = {trigger,row};
+      $('#subscriptionSettingsTitle').textContent = editing ? '修改订阅设置' : '订阅设置';
+      $('#subscriptionTargetName').textContent = subscriptionTargetName(trigger,row);
+      $$('input[name="subscriptionContent"]',subscriptionSettingsModal).forEach(input => { input.checked = row ? content.includes(input.value === 'trade' ? '交易' : '观点') : true; });
+      $$('input[name="subscriptionNotify"]',subscriptionSettingsModal).forEach(input => { input.checked = row ? notify.includes(input.value === 'inapp' ? '站内' : 'App Push') : input.value === 'inapp'; });
+      $('#subscriptionSettingsError').textContent = '';
+      subscriptionSettingsModal.classList.add('open');
+      renderIcons();
+    }
+    function closeSubscriptionSettings(){ subscriptionSettingsModal.classList.remove('open'); }
+    $$('.source-subscribe-btn').forEach(btn => btn.addEventListener('click', () => openSubscriptionSettings(btn)));
+    $$('.subscribeAction').forEach(btn => btn.addEventListener('click', event => { event.stopPropagation(); openSubscriptionSettings(btn); }));
+    $('#closeSubscriptionSettings').addEventListener('click', closeSubscriptionSettings);
+    $('#cancelSubscriptionSettings').addEventListener('click', closeSubscriptionSettings);
+    subscriptionSettingsModal.addEventListener('click', event => { if(event.target === subscriptionSettingsModal) closeSubscriptionSettings(); });
+    $('#saveSubscriptionSettings').addEventListener('click', () => {
+      const content = $$('input[name="subscriptionContent"]:checked',subscriptionSettingsModal).map(input => input.value);
+      const notify = $$('input[name="subscriptionNotify"]:checked',subscriptionSettingsModal).map(input => input.value);
+      if(!content.length || !notify.length){ $('#subscriptionSettingsError').textContent = !content.length ? '请至少选择一项订阅内容' : '请至少选择一种通知方式'; return; }
+      const contentText = content.length === 2 ? '交易 + 观点' : content[0] === 'trade' ? '交易提醒' : '观点提醒';
+      const notifyText = notify.length === 2 ? '站内 + App Push' : notify[0] === 'inapp' ? '站内通知' : 'App Push';
+      const {trigger,row} = subscriptionContext;
+      if(row){ row.children[1].textContent = contentText; row.children[2].textContent = notifyText; }
+      if(trigger?.dataset.creator){ $$(`.source-subscribe-btn[data-creator="${trigger.dataset.creator}"]`).forEach(item => { item.classList.add('subscribed'); item.textContent = '已订阅'; }); }
+      if(trigger){ trigger.classList.add('subscribed'); trigger.setAttribute('aria-pressed','true'); }
+      closeSubscriptionSettings();
+      toast(row ? '订阅设置已保存' : `已订阅 ${$('#subscriptionTargetName').textContent}`);
+    });
     $$('.followAction').forEach(btn => btn.addEventListener('click', () => { btn.classList.toggle('active'); toast(btn.classList.contains('active') ? '已关注该带单账户' : '已取消关注'); }));
     const quickTradeModal = $('#quickTradeModal');
     $('.quick-market-summary', quickTradeModal)?.insertAdjacentHTML('afterend', '<div class="quick-ai-bias" id="quickAiBias" hidden><i data-lucide="sparkles"></i><strong>AI 方向偏好 · 偏多</strong></div>');
@@ -1622,7 +1670,7 @@
       const actionCell = row.querySelector('.table-action');
       actionCell.innerHTML = '<button class="subscriptionModify">修改</button><button class="subscriptionCancel">取消</button>';
     });
-    $$('.subscriptionModify').forEach(btn => btn.addEventListener('click', () => toast('订阅内容修改面板已打开')));
+    document.addEventListener('click', event => { const modify = event.target.closest('.subscriptionModify'); if(modify) openSubscriptionSettings(modify,modify.closest('tr')); });
     $$('.subscriptionCancel').forEach(btn => btn.addEventListener('click', () => {
       btn.closest('tr').remove();
       toast('订阅已取消');
