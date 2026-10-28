@@ -1475,7 +1475,7 @@
       return newsCard ? $('.who strong',newsCard)?.textContent.trim() || '关注账户' : '关注账户';
     }
     function openSubscriptionSettings(trigger,row=null){
-      const unsubscribedRow = row?.children[3]?.textContent.includes('未订阅');
+      const unsubscribedRow = row?.dataset.subscribed === 'false';
       const editing = (Boolean(row) && !unsubscribedRow) || trigger.classList.contains('subscribed') || trigger.textContent.includes('已订阅');
       const content = row?.children[1]?.textContent || '';
       const notify = row?.children[2]?.textContent || '';
@@ -1532,9 +1532,7 @@
       if(row){
         row.children[1].textContent = contentText;
         row.children[2].textContent = notifyText;
-        row.children[3].textContent = '订阅中';
-        row.children[3].classList.add('status-live');
-        row.children[3].classList.remove('status-warn');
+        row.dataset.subscribed = 'true';
         updateFollowRelation(row);
         renderFollowRowActions(row);
         updateFollowSummary();
@@ -1901,54 +1899,45 @@
     }));
     function updateFollowSummary(){
       const rows = $$('#subscriptionAccountsPanel tbody tr');
-      const subscribed = rows.filter(row => row.children[3]?.textContent.includes('订阅中')).length;
+      const subscribed = rows.filter(row => row.dataset.subscribed === 'true').length;
       const summary = $$('#manage-view .overview-stat')[1];
       if(!summary) return;
       $('b',summary).textContent = rows.length;
       $('span',summary).textContent = `已订阅 ${subscribed} · 仅关注 ${rows.length - subscribed}`;
     }
     function updateFollowRelation(row){
-      const subscribed = row.children[3].textContent.includes('订阅中');
+      const subscribed = row.dataset.subscribed === 'true';
       const copying = row.dataset.copying === 'true';
-      const relationCell = row.children[4];
+      const relationCell = row.children[3];
       relationCell.textContent = subscribed ? (copying ? '关注+订阅+跟单' : '关注+订阅') : '仅关注';
       relationCell.classList.toggle('status-live', subscribed && copying);
     }
     function renderFollowRowActions(row){
       const actionCell = row.querySelector('.table-action');
-      const subscribed = !row.children[3].textContent.includes('未订阅');
+      const subscribed = row.dataset.subscribed === 'true';
       actionCell.innerHTML = subscribed
-        ? '<button class="subscriptionModify">修改</button><button class="subscriptionCancel">取消订阅</button><button class="subscriptionUnfollow">取消关注</button>'
+        ? '<button class="subscriptionModify">修改</button><button class="subscriptionUnfollow">取消关注</button>'
         : '<button class="subscriptionModify">订阅设置</button><button class="subscriptionUnfollow">取消关注</button>';
     }
+    $('#subscriptionAccountsPanel thead th:nth-child(4)')?.remove();
     $$('#subscriptionAccountsPanel tbody tr').forEach(row => {
       const notifyCell = row.children[2];
+      const statusCell = row.children[3];
+      const relationCell = row.children[4];
       notifyCell.textContent = notifyCell.textContent.replace('邮件', 'App Push');
-      row.dataset.copying = row.children[4].textContent.includes('跟单') ? 'true' : 'false';
+      row.dataset.subscribed = statusCell.textContent.includes('订阅中') ? 'true' : 'false';
+      row.dataset.copying = relationCell.textContent.includes('跟单') ? 'true' : 'false';
+      statusCell.remove();
       updateFollowRelation(row);
       renderFollowRowActions(row);
     });
     document.addEventListener('click', event => { const modify = event.target.closest('.subscriptionModify'); if(modify) openSubscriptionSettings(modify,modify.closest('tr')); });
     document.addEventListener('click', event => {
-      const cancel = event.target.closest('.subscriptionCancel');
-      if(!cancel) return;
-      const row = cancel.closest('tr');
-      row.children[1].textContent = '--';
-      row.children[2].textContent = '--';
-      row.children[3].textContent = '未订阅';
-      row.children[3].classList.remove('status-live');
-      row.children[3].classList.add('status-warn');
-      updateFollowRelation(row);
-      renderFollowRowActions(row);
-      updateFollowSummary();
-      toast('已取消订阅，仍保留关注');
-    });
-    document.addEventListener('click', event => {
       const unfollow = event.target.closest('.subscriptionUnfollow');
       if(!unfollow) return;
       unfollow.closest('tr').remove();
       updateFollowSummary();
-      toast('已取消关注');
+      toast('已取消关注，相关订阅已同步取消');
     });
     updateFollowSummary();
     $$('.period-tabs button').forEach(btn => btn.addEventListener('click', () => { $$('.period-tabs button').forEach(b => b.classList.toggle('active', b === btn)); toast(`已切换至${btn.textContent}数据`); }));
