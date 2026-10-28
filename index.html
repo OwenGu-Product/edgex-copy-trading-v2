@@ -309,6 +309,14 @@
     .subscription-choice input:checked + span { color:var(--lime); border-color:#3a6548; background:#17271d; }
     .subscription-settings-error { min-height:18px; padding:8px 17px 0; color:var(--red); font-size:9px; }
     .subscription-settings-footer { padding:12px 17px 16px; }
+    .follow-subscription-modal { width:min(390px,100%); }
+    .follow-subscription-body { padding:20px 17px 17px; }
+    .follow-subscription-target { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+    .follow-subscription-target i { width:20px; height:20px; color:var(--lime); }
+    .follow-subscription-target small { display:block; margin-bottom:3px; color:var(--muted); font-size:9px; }
+    .follow-subscription-target strong { font-size:13px; }
+    .follow-subscription-body > p { margin:0 0 18px; color:var(--soft); font-size:11px; line-height:1.65; }
+    .follow-subscription-footer { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
     .quick-trade-modal { width:min(420px,100%); max-height:calc(100vh - 32px); display:flex; flex-direction:column; }
     .quick-trade-modal .modal-body { overflow-y:auto; }
     .quick-market-summary { display:flex; align-items:center; gap:10px; padding:12px; margin-bottom:14px; border:1px solid var(--line); border-radius:5px; background:var(--bg); }
@@ -992,7 +1000,7 @@
       <section class="view" id="detail-view">
         <div class="view-shell"><aside class="work-rail"><div class="rail-label">跟单工作台</div><div class="rail-item detailBack"><i data-lucide="compass"></i>带单首页</div><div class="rail-item"><i data-lucide="radio"></i>信息流</div><div class="rail-item"><i data-lucide="layers"></i>我的跟单</div><div class="rail-sep"></div><div class="rail-label">工具与支持</div><div class="rail-item"><i data-lucide="bookmark"></i>我的订阅</div><div class="rail-item"><i data-lucide="book-open"></i>跟单指南</div><div class="rail-account"><small>我的账户权益</small><b>25,186.42</b><small>USDT · 统一交易账户</small><button>划转资金</button></div></aside>
           <div class="view-main"><div class="detail-breadcrumb"><button class="detailBack">带单首页</button><i data-lucide="chevron-right" style="width:12px"></i><span>带单详情</span></div>
-            <div class="detail-profile"><span class="avatar green"><img src="https://unavatar.io/x/machibigbrother" alt="Machi Big Brother"></span><div class="detail-profile-main"><h1>Machi Big Brother <span class="badge">已认证</span></h1><div class="profile-meta"><span class="detail-address" title="0x020ca66c30bec2c4fe3861a94e4db4a498a35872" data-full-address="0x020ca66c30bec2c4fe3861a94e4db4a498a35872">0x020c...5872 <i data-lucide="copy" aria-label="复制地址"></i></span><span>@machibigbrother ↗</span><span>跟单人数 328</span></div></div><div class="profile-actions"><div class="profile-action-row"><button class="secondary-btn followAction"><i data-lucide="bookmark" style="width:14px;vertical-align:middle"></i> 关注</button><button class="secondary-btn subscribeAction"><i data-lucide="bell" style="width:14px;vertical-align:middle"></i> 已订阅</button></div><div class="profile-action-row"><button class="primary-btn copyTrigger">跟单</button><button class="secondary-btn reverseTrigger">反向跟单</button></div></div></div>
+            <div class="detail-profile"><span class="avatar green"><img src="https://unavatar.io/x/machibigbrother" alt="Machi Big Brother"></span><div class="detail-profile-main"><h1>Machi Big Brother <span class="badge">已认证</span></h1><div class="profile-meta"><span class="detail-address" title="0x020ca66c30bec2c4fe3861a94e4db4a498a35872" data-full-address="0x020ca66c30bec2c4fe3861a94e4db4a498a35872">0x020c...5872 <i data-lucide="copy" aria-label="复制地址"></i></span><span>@machibigbrother ↗</span><span>跟单人数 328</span></div></div><div class="profile-actions"><div class="profile-action-row"><button class="secondary-btn followAction"><i data-lucide="bookmark" style="width:14px;vertical-align:middle"></i> 关注</button></div><div class="profile-action-row"><button class="primary-btn copyTrigger">跟单</button><button class="secondary-btn reverseTrigger">反向跟单</button></div></div></div>
             <nav class="detail-page-tabs"><button class="detail-page-tab active" data-target="performanceSection">带单数据</button><button class="detail-page-tab" data-target="traderFeedSection">信息流</button><button class="detail-page-tab" data-target="positionsSection">当前持仓</button><button class="detail-page-tab" data-target="historySection">历史交易</button></nav>
             <div class="detail-period-bar"><button>7天</button><button class="active">30天</button><button>90天</button><button>180天</button><button>全部</button></div>
             <div class="detail-data-grid" id="performanceSection"><section class="performance-summary"><h2>表现</h2><div class="detail-kpis"><div class="detail-kpi"><small>收益额（USDT）</small><b style="color:var(--lime)">+128,450.60</b></div><div class="detail-kpi"><small>账户权益（USDT）</small><b>1,924,680.20</b></div><div class="detail-kpi"><small>胜率</small><b>71.4%</b></div><div class="detail-kpi"><small>最大回撤</small><b>8.2%</b></div></div></section><section class="performance-panel"><div class="performance-head"><h2>累计收益</h2><span style="color:var(--muted);font-size:10px">带单账户</span></div><div class="performance-chart"><span class="chart-value">+128,450.60 USDT</span><div class="chart-y-axis"><span>+130K</span><span>+90K</span><span>+50K</span><span>+10K</span><span>0</span></div><svg viewBox="0 0 800 230" preserveAspectRatio="none"><defs><linearGradient id="detailFade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22FD73" stop-opacity=".2"/><stop offset="1" stop-color="#22FD73" stop-opacity="0"/></linearGradient></defs><g stroke="#252c30" stroke-width="1"><line x1="0" y1="20" x2="800" y2="20"/><line x1="0" y1="67" x2="800" y2="67"/><line x1="0" y1="115" x2="800" y2="115"/><line x1="0" y1="162" x2="800" y2="162"/><line x1="0" y1="210" x2="800" y2="210"/></g><path d="M0 206L55 190L110 198L165 162L220 170L275 132L330 145L385 112L440 121L495 82L550 94L605 58L660 71L715 28L800 42V230H0Z" fill="url(#detailFade)"/><path d="M0 206L55 190L110 198L165 162L220 170L275 132L330 145L385 112L440 121L495 82L550 94L605 58L660 71L715 28L800 42" fill="none" stroke="#22FD73" stroke-width="2"/></svg><div class="chart-x-axis"><span>09/21</span><span>09/28</span><span>10/05</span><span>10/12</span><span>10/20</span></div></div></section></div>
@@ -1008,7 +1016,7 @@
   <div class="drawer-mask" id="drawerMask">
     <aside class="drawer" aria-label="带单账户详情">
       <div class="drawer-head"><div class="avatar green" style="width:42px;height:42px">AP</div><div class="drawer-title"><h2>Andrew P. <span class="verified">●</span></h2><p>0x71b9...82f9 · @AP_Abacus</p><div class="verify-row"><span>已认证</span></div></div><button class="icon-btn" id="closeDrawer" aria-label="关闭"><i data-lucide="x"></i></button></div>
-      <div class="detail-actions"><button class="primary-btn copyTrigger">跟单</button><button class="secondary-btn reverseTrigger">反向跟单</button><button class="icon-btn subscribeAction" aria-label="订阅"><i data-lucide="bell-plus"></i></button></div>
+      <div class="detail-actions"><button class="primary-btn copyTrigger">跟单</button><button class="secondary-btn reverseTrigger">反向跟单</button><button class="icon-btn followAction" aria-label="关注"><i data-lucide="bookmark-plus"></i></button></div>
       <div class="detail-stats"><div class="detail-stat"><small>30D 收益额</small><b style="color:var(--green)">+$184.2K</b></div><div class="detail-stat"><small>账户权益</small><b>$1.92M</b></div><div class="detail-stat"><small>胜率</small><b>71.4%</b></div><div class="detail-stat"><small>最大回撤</small><b>8.2%</b></div></div>
       <div class="detail-chart"><svg viewBox="0 0 500 115" preserveAspectRatio="none"><defs><linearGradient id="chartFade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4ddf99" stop-opacity=".22"/><stop offset="1" stop-color="#4ddf99" stop-opacity="0"/></linearGradient></defs><path d="M0 108L35 96L70 100L105 82L140 87L175 64L210 70L245 52L280 61L315 37L350 42L385 27L420 31L460 11L500 18V115H0Z" fill="url(#chartFade)"/><path d="M0 108L35 96L70 100L105 82L140 87L175 64L210 70L245 52L280 61L315 37L350 42L385 27L420 31L460 11L500 18" fill="none" stroke="#4ddf99" stroke-width="2"/></svg></div>
       <div class="detail-tabs"><button class="detail-tab active" data-detail="positions">当前持仓 3</button><button class="detail-tab" data-detail="history">历史交易</button></div>
@@ -1448,12 +1456,15 @@
       const creator = authorMeta.match(/@[\w_]+/)?.[0] || $('.who strong', card)?.textContent.trim();
       const author = $('.news-author', card);
       if(author){
-        author.insertAdjacentHTML('beforeend', `<button class="source-subscribe-btn" data-creator="${creator}">订阅</button>`);
+        author.insertAdjacentHTML('beforeend', `<button class="source-subscribe-btn" data-creator="${creator}">关注</button>`);
       }
     });
+    document.body.insertAdjacentHTML('beforeend', `<div class="modal-mask" id="followSubscriptionModal"><div class="modal follow-subscription-modal"><div class="modal-head"><h3>关注成功</h3><button class="icon-btn" id="closeFollowSubscription" aria-label="关闭"><i data-lucide="x"></i></button></div><div class="follow-subscription-body"><div class="follow-subscription-target"><i data-lucide="bookmark-check"></i><div><small>已关注</small><strong id="followSubscriptionTarget">--</strong></div></div><p>是否同时订阅该账户的交易与观点动态？如需订阅，可继续设置订阅内容和通知方式。</p><div class="follow-subscription-footer"><button class="secondary-btn" id="followWithoutSubscription">暂不订阅</button><button class="primary-btn" id="continueSubscriptionSettings">订阅设置</button></div></div></div></div>`);
     document.body.insertAdjacentHTML('beforeend', `<div class="modal-mask" id="subscriptionSettingsModal"><div class="modal subscription-settings-modal"><div class="modal-head"><h3 id="subscriptionSettingsTitle">订阅设置</h3><button class="icon-btn" id="closeSubscriptionSettings" aria-label="关闭"><i data-lucide="x"></i></button></div><div class="modal-body"><div class="subscription-target"><small>订阅账户</small><strong id="subscriptionTargetName">--</strong></div><section class="subscription-setting-section"><h4>订阅内容</h4><div class="subscription-choice-grid"><label class="subscription-choice"><input type="checkbox" name="subscriptionContent" value="trade"><span>交易提醒</span></label><label class="subscription-choice"><input type="checkbox" name="subscriptionContent" value="opinion"><span>观点提醒</span></label></div></section><section class="subscription-setting-section"><h4>通知方式</h4><div class="subscription-choice-grid"><label class="subscription-choice"><input type="checkbox" name="subscriptionNotify" value="inapp"><span>站内通知</span></label><label class="subscription-choice"><input type="checkbox" name="subscriptionNotify" value="push"><span>App Push</span></label></div></section><div class="subscription-settings-error" id="subscriptionSettingsError"></div><div class="modal-footer subscription-settings-footer"><button class="secondary-btn" id="cancelSubscriptionSettings">取消</button><button class="primary-btn" id="saveSubscriptionSettings">保存订阅</button></div></div></div></div>`);
+    const followSubscriptionModal = $('#followSubscriptionModal');
     const subscriptionSettingsModal = $('#subscriptionSettingsModal');
     let subscriptionContext = {};
+    let followSubscriptionTrigger = null;
     function subscriptionTargetName(trigger,row){
       if(row){ const cell=row.children[0], address=$('small',cell)?.textContent || ''; return cell.textContent.replace(address,'').trim() || '订阅账户'; }
       if(trigger.dataset.creator) return trigger.dataset.creator;
@@ -1461,7 +1472,10 @@
       if(traderCard) return $('.info strong',traderCard)?.childNodes[0]?.textContent.trim() || '带单账户';
       const detailProfile = trigger.closest('.detail-profile');
       if(detailProfile) return $('.detail-profile-main h1',detailProfile)?.childNodes[0]?.textContent.trim() || '带单账户';
-      return $('.who strong',trigger.closest('.news-card'))?.textContent.trim() || '订阅账户';
+      const drawer = trigger.closest('.drawer');
+      if(drawer) return $('.drawer-title h2',drawer)?.childNodes[0]?.textContent.trim() || '带单账户';
+      const newsCard = trigger.closest('.news-card');
+      return newsCard ? $('.who strong',newsCard)?.textContent.trim() || '关注账户' : '关注账户';
     }
     function openSubscriptionSettings(trigger,row=null){
       const editing = Boolean(row) || trigger.classList.contains('subscribed') || trigger.textContent.includes('已订阅');
@@ -1476,9 +1490,42 @@
       subscriptionSettingsModal.classList.add('open');
       renderIcons();
     }
+    function syncFollowButton(trigger, followed, subscribed=false){
+      if(!trigger) return;
+      trigger.classList.toggle('active', followed);
+      trigger.classList.toggle('subscribed', followed && subscribed);
+      trigger.setAttribute('aria-pressed', followed ? 'true' : 'false');
+      const label = followed ? '已关注' : '关注';
+      if(trigger.classList.contains('source-subscribe-btn')) trigger.textContent = label;
+      else {
+        const iconOnly = trigger.classList.contains('icon-btn') || trigger.classList.contains('bookmark-btn');
+        trigger.innerHTML = `<i data-lucide="${followed ? 'bookmark-check' : 'bookmark-plus'}"></i>${iconOnly ? '' : ` ${label}`}`;
+        trigger.setAttribute('aria-label', label);
+      }
+      renderIcons();
+    }
+    function closeFollowSubscription(){ followSubscriptionModal.classList.remove('open'); }
+    function openFollowSubscription(trigger){
+      if(trigger.classList.contains('active') || trigger.textContent.includes('已关注')){
+        syncFollowButton(trigger, false);
+        toast('已取消关注，相关订阅已同步取消');
+        return;
+      }
+      followSubscriptionTrigger = trigger;
+      syncFollowButton(trigger, true);
+      $('#followSubscriptionTarget').textContent = subscriptionTargetName(trigger,null);
+      followSubscriptionModal.classList.add('open');
+    }
     function closeSubscriptionSettings(){ subscriptionSettingsModal.classList.remove('open'); }
-    $$('.source-subscribe-btn').forEach(btn => btn.addEventListener('click', () => openSubscriptionSettings(btn)));
-    $$('.subscribeAction').forEach(btn => btn.addEventListener('click', event => { event.stopPropagation(); openSubscriptionSettings(btn); }));
+    $$('.subscribeAction').forEach(btn => {
+      const alreadySubscribed = btn.textContent.includes('已订阅');
+      syncFollowButton(btn, alreadySubscribed, alreadySubscribed);
+    });
+    $$('.source-subscribe-btn, .subscribeAction, .followAction').forEach(btn => btn.addEventListener('click', event => { event.stopPropagation(); openFollowSubscription(btn); }));
+    $('#closeFollowSubscription').addEventListener('click', closeFollowSubscription);
+    $('#followWithoutSubscription').addEventListener('click', () => { closeFollowSubscription(); toast(`已关注 ${$('#followSubscriptionTarget').textContent}`); });
+    $('#continueSubscriptionSettings').addEventListener('click', () => { const trigger=followSubscriptionTrigger; closeFollowSubscription(); openSubscriptionSettings(trigger); });
+    followSubscriptionModal.addEventListener('click', event => { if(event.target === followSubscriptionModal) closeFollowSubscription(); });
     $('#closeSubscriptionSettings').addEventListener('click', closeSubscriptionSettings);
     $('#cancelSubscriptionSettings').addEventListener('click', closeSubscriptionSettings);
     subscriptionSettingsModal.addEventListener('click', event => { if(event.target === subscriptionSettingsModal) closeSubscriptionSettings(); });
@@ -1490,12 +1537,11 @@
       const notifyText = notify.length === 2 ? '站内 + App Push' : notify[0] === 'inapp' ? '站内通知' : 'App Push';
       const {trigger,row} = subscriptionContext;
       if(row){ row.children[1].textContent = contentText; row.children[2].textContent = notifyText; }
-      if(trigger?.dataset.creator){ $$(`.source-subscribe-btn[data-creator="${trigger.dataset.creator}"]`).forEach(item => { item.classList.add('subscribed'); item.textContent = '已订阅'; }); }
-      if(trigger){ trigger.classList.add('subscribed'); trigger.setAttribute('aria-pressed','true'); }
+      if(trigger?.dataset.creator){ $$(`.source-subscribe-btn[data-creator="${trigger.dataset.creator}"]`).forEach(item => syncFollowButton(item,true,true)); }
+      if(trigger) syncFollowButton(trigger,true,true);
       closeSubscriptionSettings();
-      toast(row ? '订阅设置已保存' : `已订阅 ${$('#subscriptionTargetName').textContent}`);
+      toast(row ? '订阅设置已保存' : `已关注并订阅 ${$('#subscriptionTargetName').textContent}`);
     });
-    $$('.followAction').forEach(btn => btn.addEventListener('click', () => { btn.classList.toggle('active'); toast(btn.classList.contains('active') ? '已关注该带单账户' : '已取消关注'); }));
     const quickTradeModal = $('#quickTradeModal');
     $('.quick-market-summary', quickTradeModal)?.insertAdjacentHTML('afterend', '<div class="quick-ai-bias" id="quickAiBias" hidden><i data-lucide="sparkles"></i><strong>AI 方向偏好 · 偏多</strong></div>');
     const closeQuickTrade = () => quickTradeModal?.classList.remove('open');
@@ -1697,7 +1743,7 @@
       if(btn.textContent === '上一页' || btn.textContent === '下一页'){ toast(`已切换到${btn.textContent === '下一页' ? '下一' : '上一'}页`); return; }
       $$('.page-buttons button').forEach(b => b.classList.remove('active')); btn.classList.add('active'); toast(`当前第 ${btn.textContent} 页`);
     }));
-    $$('.bookmark-btn').forEach(btn => btn.addEventListener('click', e => { e.stopPropagation(); btn.classList.toggle('saved'); toast(btn.classList.contains('saved') ? '已加入我的关注' : '已取消关注'); }));
+    $$('.bookmark-btn:not(.subscribeAction)').forEach(btn => btn.addEventListener('click', e => { e.stopPropagation(); openFollowSubscription(btn); }));
 
     // Position records are kept separate from account-level copy settings.
     const managePanels = $$('#manage-view .view-main > .data-panel');
