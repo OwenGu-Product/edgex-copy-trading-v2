@@ -730,7 +730,7 @@
     .data-table { width:100%; border-collapse:collapse; }.data-table th,.data-table td { padding:12px; text-align:left; border-bottom:1px solid var(--line); font-size:11px; white-space:nowrap; }.data-table th { color:var(--muted); background:var(--surface-2); font-weight:500; }.data-table td small { display:block; color:var(--muted); margin-top:3px; }.status-live { color:var(--lime); }.status-warn { color:var(--amber); }.table-action { color:var(--lime); }
     .table-action { cursor:pointer; }
     .table-action button { border:0; background:transparent; color:var(--lime); padding:0 10px 0 0; cursor:pointer; font-size:11px; }
-    .table-action .manageStop, .table-action .subscriptionCancel { color:var(--red); }
+    .table-action .manageStop, .table-action .subscriptionUnfollow { color:var(--red); }
     .table-action .managePause { color:var(--soft); }
     .position-action-modal { width:min(480px,100%); }
     .position-action-body { padding:17px; }
@@ -877,7 +877,7 @@
     <main class="workspace">
       <section class="view" id="intel-view">
         <div class="view-shell">
-          <aside class="work-rail"><div class="rail-label">跟单工作台</div><div class="rail-item"><i data-lucide="compass"></i>带单首页</div><div class="rail-item active"><i data-lucide="radio"></i>信息流</div><div class="rail-item"><i data-lucide="layers"></i>我的跟单</div><div class="rail-sep"></div><div class="rail-label">工具与支持</div><div class="rail-item"><i data-lucide="bookmark"></i>我的订阅</div><div class="rail-item"><i data-lucide="book-open"></i>跟单指南</div><div class="rail-account"><small>我的账户权益</small><b>25,186.42</b><small>USDT · 统一交易账户</small><button>划转资金</button></div></aside>
+          <aside class="work-rail"><div class="rail-label">跟单工作台</div><div class="rail-item"><i data-lucide="compass"></i>带单首页</div><div class="rail-item active"><i data-lucide="radio"></i>信息流</div><div class="rail-item"><i data-lucide="layers"></i>我的跟单</div><div class="rail-sep"></div><div class="rail-label">工具与支持</div><div class="rail-item"><i data-lucide="bookmark"></i>我的关注</div><div class="rail-item"><i data-lucide="book-open"></i>跟单指南</div><div class="rail-account"><small>我的账户权益</small><b>25,186.42</b><small>USDT · 统一交易账户</small><button>划转资金</button></div></aside>
           <div class="view-main"><div class="view-title"><h1>信息流</h1><p>收集 KOL 观点、新闻与市场动态，关注与我相关的信息与交易动态。</p></div><div class="scope-switch"><div class="segmented"><button>全部信息</button><button class="active">与我有关 · 6</button></div><span class="scope-note">全部：名人 / KOL 观点与新闻 ｜ 与我有关：关注账户的订阅观点与交易动态</span></div>
             <div class="discovery-columns"><div class="discovery-feed"><div class="discovery-filter"><button class="source-filter active" data-source="all">全部来源</button><button class="source-filter" data-source="kol">名人 / KOL</button><button class="source-filter" data-source="news">新闻</button><button class="source-filter" data-source="ai">AI 总结</button><span style="margin-left:auto">↻ 最新发布</span></div>
               <article class="news-card" data-source="kol"><div class="news-author"><span class="avatar green" style="width:38px;height:38px">岚</span><span class="who"><strong>岚序 <span class="badge">已认证</span></strong><small>@lanxu_demo · 推特观点 · 2026-10-20 14:25:12</small></span><i data-lucide="ellipsis"></i></div><p>BTC 回踩 67,400 后承接依然稳健，关注 68,800 附近的流动性。当前维持轻仓多头，不追涨；若跌破前低会主动降低风险敞口。</p><div class="news-market"><span class="token-icon">BTC</span><b>BTCUSDC</b><span>68,240.50</span><em>+2.34%</em><button class="tradeAction">立即交易</button></div><div class="news-actions"><span>♡ 128</span><span>◯ 24</span><span>▱ 收藏</span></div></article>
@@ -984,10 +984,10 @@
       </section>
 
       <section class="view" id="manage-view">
-        <div class="view-shell"><aside class="work-rail"><div class="rail-label">跟单工作台</div><div class="rail-item"><i data-lucide="compass"></i>带单首页</div><div class="rail-item"><i data-lucide="radio"></i>信息流</div><div class="rail-item active"><i data-lucide="layers"></i>我的跟单</div><div class="rail-sep"></div><div class="rail-label">工具与支持</div><div class="rail-item"><i data-lucide="bookmark"></i>我的订阅</div><div class="rail-item"><i data-lucide="book-open"></i>跟单指南</div><div class="rail-account"><small>我的账户权益</small><b>25,186.42</b><small>USDT · 统一交易账户</small><button>划转资金</button></div></aside>
-          <div class="view-main"><div class="manage-head"><div class="view-title"><h1>我的跟单管理</h1><p>管理跟随关系、账户资金与信息订阅。</p></div></div><div class="overview-grid"><div class="overview-stat"><small>跟单账户</small><b>3</b><span>运行中 3 · 已暂停 0</span></div><div class="overview-stat"><small>订阅账户</small><b>4</b><span>订阅中 4</span></div><div class="overview-stat equity-overview"><small>跟单账户权益（USDT）</small><div class="equity-inline"><b>13,482.60</b><button class="primary-btn equityTransfer">划转</button></div><span>可用余额 1,482.60</span></div><div class="overview-stat"><small>累计收益（USDC）</small><b style="color:var(--lime)">+885.75</b><span>已实现 +624.30 · 浮动 +261.45</span></div></div>
+        <div class="view-shell"><aside class="work-rail"><div class="rail-label">跟单工作台</div><div class="rail-item"><i data-lucide="compass"></i>带单首页</div><div class="rail-item"><i data-lucide="radio"></i>信息流</div><div class="rail-item active"><i data-lucide="layers"></i>我的跟单</div><div class="rail-sep"></div><div class="rail-label">工具与支持</div><div class="rail-item"><i data-lucide="bookmark"></i>我的关注</div><div class="rail-item"><i data-lucide="book-open"></i>跟单指南</div><div class="rail-account"><small>我的账户权益</small><b>25,186.42</b><small>USDT · 统一交易账户</small><button>划转资金</button></div></aside>
+          <div class="view-main"><div class="manage-head"><div class="view-title"><h1>我的跟单管理</h1><p>管理跟随关系、账户资金与信息订阅。</p></div></div><div class="overview-grid"><div class="overview-stat"><small>跟单账户</small><b>3</b><span>运行中 3 · 已暂停 0</span></div><div class="overview-stat"><small>关注账户</small><b>5</b><span>已订阅 4 · 仅关注 1</span></div><div class="overview-stat equity-overview"><small>跟单账户权益（USDT）</small><div class="equity-inline"><b>13,482.60</b><button class="primary-btn equityTransfer">划转</button></div><span>可用余额 1,482.60</span></div><div class="overview-stat"><small>累计收益（USDC）</small><b style="color:var(--lime)">+885.75</b><span>已实现 +624.30 · 浮动 +261.45</span></div></div>
             <section class="data-panel"><div class="data-panel-head"><h2>我跟单的账户</h2><div class="control-row"><select class="select"><option>全部方向</option></select><select class="select"><option>全部状态</option></select></div></div><div class="table-wrap"><table class="data-table"><thead><tr><th>带单账户 / 链上地址</th><th>关系方向</th><th>跟单资金</th><th>累计收益</th><th>状态</th><th>开始跟单时间</th><th>管理操作</th></tr></thead><tbody><tr><td>岚序<small>0x7A3f...92C1</small></td><td class="status-live">同向跟单</td><td>5,000.00</td><td class="status-live">+642.25</td><td class="status-live">● 运行中</td><td>2026-10-12 09:30:14</td><td class="table-action">修改　停止</td></tr><tr><td>零度研究<small>0xB82e...4D09</small></td><td>反向跟单</td><td>4,000.00</td><td style="color:var(--red)">−175.40</td><td class="status-live">● 运行中</td><td>2026-10-15 11:08:36</td><td class="table-action">修改　停止</td></tr><tr><td>鲸落<small>0x63C9...7F12</small></td><td class="status-live">同向跟单</td><td>3,000.00</td><td class="status-live">+418.90</td><td class="status-live">● 运行中</td><td>2026-10-16 14:27:08</td><td class="table-action">修改　停止</td></tr></tbody></table></div></section>
-            <section class="data-panel"><div class="data-panel-head"><h2>我订阅的账户</h2></div><div class="table-wrap"><table class="data-table"><thead><tr><th>账户 / 链上地址</th><th>订阅内容</th><th>通知方式</th><th>订阅状态</th><th>关系</th><th>管理操作</th></tr></thead><tbody><tr><td>岚序<small>0x7A3f...92C1</small></td><td>交易 + 观点</td><td>站内 + 邮件</td><td class="status-live">订阅中</td><td class="status-live">同时跟单</td><td class="table-action">详情　取消</td></tr><tr><td>零度研究<small>0xB82e...4D09</small></td><td>观点提醒</td><td>站内通知</td><td class="status-live">订阅中</td><td>仅订阅</td><td class="table-action">详情　取消</td></tr><tr><td>鲸落<small>0x63C9...7F12</small></td><td>交易提醒</td><td>站内通知</td><td class="status-live">订阅中</td><td class="status-live">同时跟单</td><td class="table-action">详情　取消</td></tr><tr><td>北辰<small>0xF04a...A827</small></td><td>交易 + 观点</td><td>站内 + 邮件</td><td class="status-live">订阅中</td><td>仅订阅</td><td class="table-action">详情　取消</td></tr></tbody></table></div></section>
+            <section class="data-panel"><div class="data-panel-head"><h2>我关注的账户</h2></div><div class="table-wrap"><table class="data-table"><thead><tr><th>账户 / 链上地址</th><th>订阅内容</th><th>通知方式</th><th>订阅状态</th><th>关系</th><th>管理操作</th></tr></thead><tbody><tr><td>岚序<small>0x7A3f...92C1</small></td><td>交易 + 观点</td><td>站内 + 邮件</td><td class="status-live">订阅中</td><td class="status-live">同时跟单</td><td class="table-action">详情　取消</td></tr><tr><td>零度研究<small>0xB82e...4D09</small></td><td>观点提醒</td><td>站内通知</td><td class="status-live">订阅中</td><td>仅关注</td><td class="table-action">详情　取消</td></tr><tr><td>鲸落<small>0x63C9...7F12</small></td><td>交易提醒</td><td>站内通知</td><td class="status-live">订阅中</td><td class="status-live">同时跟单</td><td class="table-action">详情　取消</td></tr><tr><td>北辰<small>0xF04a...A827</small></td><td>交易 + 观点</td><td>站内 + 邮件</td><td class="status-live">订阅中</td><td>仅关注</td><td class="table-action">详情　取消</td></tr><tr><td>波段旅人<small>0x4D1A...77B0</small></td><td>--</td><td>--</td><td class="status-warn">未订阅</td><td>仅关注</td><td class="table-action">订阅设置　取消关注</td></tr></tbody></table></div></section>
           </div>
         </div>
         <div class="page-head"><div><h1>我的跟单</h1><p>统一管理跟单资金、执行策略与信息订阅。</p></div><button class="primary-btn copyTrigger" style="height:34px"><i data-lucide="plus" style="width:14px;vertical-align:middle"></i> 新建跟单</button></div>
@@ -998,7 +998,7 @@
       </section>
 
       <section class="view" id="detail-view">
-        <div class="view-shell"><aside class="work-rail"><div class="rail-label">跟单工作台</div><div class="rail-item detailBack"><i data-lucide="compass"></i>带单首页</div><div class="rail-item"><i data-lucide="radio"></i>信息流</div><div class="rail-item"><i data-lucide="layers"></i>我的跟单</div><div class="rail-sep"></div><div class="rail-label">工具与支持</div><div class="rail-item"><i data-lucide="bookmark"></i>我的订阅</div><div class="rail-item"><i data-lucide="book-open"></i>跟单指南</div><div class="rail-account"><small>我的账户权益</small><b>25,186.42</b><small>USDT · 统一交易账户</small><button>划转资金</button></div></aside>
+        <div class="view-shell"><aside class="work-rail"><div class="rail-label">跟单工作台</div><div class="rail-item detailBack"><i data-lucide="compass"></i>带单首页</div><div class="rail-item"><i data-lucide="radio"></i>信息流</div><div class="rail-item"><i data-lucide="layers"></i>我的跟单</div><div class="rail-sep"></div><div class="rail-label">工具与支持</div><div class="rail-item"><i data-lucide="bookmark"></i>我的关注</div><div class="rail-item"><i data-lucide="book-open"></i>跟单指南</div><div class="rail-account"><small>我的账户权益</small><b>25,186.42</b><small>USDT · 统一交易账户</small><button>划转资金</button></div></aside>
           <div class="view-main"><div class="detail-breadcrumb"><button class="detailBack">带单首页</button><i data-lucide="chevron-right" style="width:12px"></i><span>带单详情</span></div>
             <div class="detail-profile"><span class="avatar green"><img src="https://unavatar.io/x/machibigbrother" alt="Machi Big Brother"></span><div class="detail-profile-main"><h1>Machi Big Brother <span class="badge">已认证</span></h1><div class="profile-meta"><span class="detail-address" title="0x020ca66c30bec2c4fe3861a94e4db4a498a35872" data-full-address="0x020ca66c30bec2c4fe3861a94e4db4a498a35872">0x020c...5872 <i data-lucide="copy" aria-label="复制地址"></i></span><span>@machibigbrother ↗</span><span>跟单人数 328</span></div></div><div class="profile-actions"><div class="profile-action-row"><button class="secondary-btn followAction"><i data-lucide="bookmark" style="width:14px;vertical-align:middle"></i> 关注</button></div><div class="profile-action-row"><button class="primary-btn copyTrigger">跟单</button><button class="secondary-btn reverseTrigger">反向跟单</button></div></div></div>
             <nav class="detail-page-tabs"><button class="detail-page-tab active" data-target="performanceSection">带单数据</button><button class="detail-page-tab" data-target="traderFeedSection">信息流</button><button class="detail-page-tab" data-target="positionsSection">当前持仓</button><button class="detail-page-tab" data-target="historySection">历史交易</button></nav>
@@ -1459,14 +1459,11 @@
         author.insertAdjacentHTML('beforeend', `<button class="source-subscribe-btn" data-creator="${creator}">关注</button>`);
       }
     });
-    document.body.insertAdjacentHTML('beforeend', `<div class="modal-mask" id="followSubscriptionModal"><div class="modal follow-subscription-modal"><div class="modal-head"><h3>关注成功</h3><button class="icon-btn" id="closeFollowSubscription" aria-label="关闭"><i data-lucide="x"></i></button></div><div class="follow-subscription-body"><div class="follow-subscription-target"><i data-lucide="bookmark-check"></i><div><small>已关注</small><strong id="followSubscriptionTarget">--</strong></div></div><p>是否同时订阅该账户的交易与观点动态？如需订阅，可继续设置订阅内容和通知方式。</p><div class="follow-subscription-footer"><button class="secondary-btn" id="followWithoutSubscription">暂不订阅</button><button class="primary-btn" id="continueSubscriptionSettings">订阅设置</button></div></div></div></div>`);
-    document.body.insertAdjacentHTML('beforeend', `<div class="modal-mask" id="subscriptionSettingsModal"><div class="modal subscription-settings-modal"><div class="modal-head"><h3 id="subscriptionSettingsTitle">订阅设置</h3><button class="icon-btn" id="closeSubscriptionSettings" aria-label="关闭"><i data-lucide="x"></i></button></div><div class="modal-body"><div class="subscription-target"><small>订阅账户</small><strong id="subscriptionTargetName">--</strong></div><section class="subscription-setting-section"><h4>订阅内容</h4><div class="subscription-choice-grid"><label class="subscription-choice"><input type="checkbox" name="subscriptionContent" value="trade"><span>交易提醒</span></label><label class="subscription-choice"><input type="checkbox" name="subscriptionContent" value="opinion"><span>观点提醒</span></label></div></section><section class="subscription-setting-section"><h4>通知方式</h4><div class="subscription-choice-grid"><label class="subscription-choice"><input type="checkbox" name="subscriptionNotify" value="inapp"><span>站内通知</span></label><label class="subscription-choice"><input type="checkbox" name="subscriptionNotify" value="push"><span>App Push</span></label></div></section><div class="subscription-settings-error" id="subscriptionSettingsError"></div><div class="modal-footer subscription-settings-footer"><button class="secondary-btn" id="cancelSubscriptionSettings">取消</button><button class="primary-btn" id="saveSubscriptionSettings">保存订阅</button></div></div></div></div>`);
-    const followSubscriptionModal = $('#followSubscriptionModal');
+    document.body.insertAdjacentHTML('beforeend', `<div class="modal-mask" id="subscriptionSettingsModal"><div class="modal subscription-settings-modal"><div class="modal-head"><h3 id="subscriptionSettingsTitle">订阅设置</h3><button class="icon-btn" id="closeSubscriptionSettings" aria-label="关闭"><i data-lucide="x"></i></button></div><div class="modal-body"><div class="subscription-target"><small>关注账户</small><strong id="subscriptionTargetName">--</strong></div><section class="subscription-setting-section"><h4>订阅内容</h4><div class="subscription-choice-grid"><label class="subscription-choice"><input type="checkbox" name="subscriptionContent" value="trade"><span>交易提醒</span></label><label class="subscription-choice"><input type="checkbox" name="subscriptionContent" value="opinion"><span>观点提醒</span></label></div></section><section class="subscription-setting-section"><h4>通知方式</h4><div class="subscription-choice-grid"><label class="subscription-choice"><input type="checkbox" name="subscriptionNotify" value="inapp"><span>站内通知</span></label><label class="subscription-choice"><input type="checkbox" name="subscriptionNotify" value="push"><span>App Push</span></label></div></section><div class="subscription-settings-error" id="subscriptionSettingsError"></div><div class="modal-footer subscription-settings-footer"><button class="secondary-btn" id="cancelSubscriptionSettings">取消</button><button class="primary-btn" id="saveSubscriptionSettings">保存订阅</button></div></div></div></div>`);
     const subscriptionSettingsModal = $('#subscriptionSettingsModal');
     let subscriptionContext = {};
-    let followSubscriptionTrigger = null;
     function subscriptionTargetName(trigger,row){
-      if(row){ const cell=row.children[0], address=$('small',cell)?.textContent || ''; return cell.textContent.replace(address,'').trim() || '订阅账户'; }
+      if(row){ const cell=row.children[0], address=$('small',cell)?.textContent || ''; return cell.textContent.replace(address,'').trim() || '关注账户'; }
       if(trigger.dataset.creator) return trigger.dataset.creator;
       const traderCard = trigger.closest('.trader-card');
       if(traderCard) return $('.info strong',traderCard)?.childNodes[0]?.textContent.trim() || '带单账户';
@@ -1478,14 +1475,15 @@
       return newsCard ? $('.who strong',newsCard)?.textContent.trim() || '关注账户' : '关注账户';
     }
     function openSubscriptionSettings(trigger,row=null){
-      const editing = Boolean(row) || trigger.classList.contains('subscribed') || trigger.textContent.includes('已订阅');
+      const unsubscribedRow = row?.children[3]?.textContent.includes('未订阅');
+      const editing = (Boolean(row) && !unsubscribedRow) || trigger.classList.contains('subscribed') || trigger.textContent.includes('已订阅');
       const content = row?.children[1]?.textContent || '';
       const notify = row?.children[2]?.textContent || '';
       subscriptionContext = {trigger,row};
       $('#subscriptionSettingsTitle').textContent = editing ? '修改订阅设置' : '订阅设置';
       $('#subscriptionTargetName').textContent = subscriptionTargetName(trigger,row);
-      $$('input[name="subscriptionContent"]',subscriptionSettingsModal).forEach(input => { input.checked = row ? content.includes(input.value === 'trade' ? '交易' : '观点') : true; });
-      $$('input[name="subscriptionNotify"]',subscriptionSettingsModal).forEach(input => { input.checked = row ? notify.includes(input.value === 'inapp' ? '站内' : 'App Push') : input.value === 'inapp'; });
+      $$('input[name="subscriptionContent"]',subscriptionSettingsModal).forEach(input => { input.checked = row && !unsubscribedRow ? content.includes(input.value === 'trade' ? '交易' : '观点') : true; });
+      $$('input[name="subscriptionNotify"]',subscriptionSettingsModal).forEach(input => { input.checked = row && !unsubscribedRow ? notify.includes(input.value === 'inapp' ? '站内' : 'App Push') : input.value === 'inapp'; });
       $('#subscriptionSettingsError').textContent = '';
       subscriptionSettingsModal.classList.add('open');
       renderIcons();
@@ -1504,17 +1502,16 @@
       }
       renderIcons();
     }
-    function closeFollowSubscription(){ followSubscriptionModal.classList.remove('open'); }
     function openFollowSubscription(trigger){
       if(trigger.classList.contains('active') || trigger.textContent.includes('已关注')){
         syncFollowButton(trigger, false);
         toast('已取消关注，相关订阅已同步取消');
         return;
       }
-      followSubscriptionTrigger = trigger;
-      syncFollowButton(trigger, true);
-      $('#followSubscriptionTarget').textContent = subscriptionTargetName(trigger,null);
-      followSubscriptionModal.classList.add('open');
+      const targetName = subscriptionTargetName(trigger,null);
+      syncFollowButton(trigger, true, true);
+      if(trigger.dataset.creator){ $$(`.source-subscribe-btn[data-creator="${trigger.dataset.creator}"]`).forEach(item => syncFollowButton(item,true,true)); }
+      toast(`已关注并订阅 ${targetName} · 全部内容 · 站内通知`);
     }
     function closeSubscriptionSettings(){ subscriptionSettingsModal.classList.remove('open'); }
     $$('.subscribeAction').forEach(btn => {
@@ -1522,10 +1519,6 @@
       syncFollowButton(btn, alreadySubscribed, alreadySubscribed);
     });
     $$('.source-subscribe-btn, .subscribeAction, .followAction').forEach(btn => btn.addEventListener('click', event => { event.stopPropagation(); openFollowSubscription(btn); }));
-    $('#closeFollowSubscription').addEventListener('click', closeFollowSubscription);
-    $('#followWithoutSubscription').addEventListener('click', () => { closeFollowSubscription(); toast(`已关注 ${$('#followSubscriptionTarget').textContent}`); });
-    $('#continueSubscriptionSettings').addEventListener('click', () => { const trigger=followSubscriptionTrigger; closeFollowSubscription(); openSubscriptionSettings(trigger); });
-    followSubscriptionModal.addEventListener('click', event => { if(event.target === followSubscriptionModal) closeFollowSubscription(); });
     $('#closeSubscriptionSettings').addEventListener('click', closeSubscriptionSettings);
     $('#cancelSubscriptionSettings').addEventListener('click', closeSubscriptionSettings);
     subscriptionSettingsModal.addEventListener('click', event => { if(event.target === subscriptionSettingsModal) closeSubscriptionSettings(); });
@@ -1536,7 +1529,16 @@
       const contentText = content.length === 2 ? '交易 + 观点' : content[0] === 'trade' ? '交易提醒' : '观点提醒';
       const notifyText = notify.length === 2 ? '站内 + App Push' : notify[0] === 'inapp' ? '站内通知' : 'App Push';
       const {trigger,row} = subscriptionContext;
-      if(row){ row.children[1].textContent = contentText; row.children[2].textContent = notifyText; }
+      if(row){
+        row.children[1].textContent = contentText;
+        row.children[2].textContent = notifyText;
+        row.children[3].textContent = '订阅中';
+        row.children[3].classList.add('status-live');
+        row.children[3].classList.remove('status-warn');
+        updateFollowRelation(row);
+        renderFollowRowActions(row);
+        updateFollowSummary();
+      }
       if(trigger?.dataset.creator){ $$(`.source-subscribe-btn[data-creator="${trigger.dataset.creator}"]`).forEach(item => syncFollowButton(item,true,true)); }
       if(trigger) syncFollowButton(trigger,true,true);
       closeSubscriptionSettings();
@@ -1616,7 +1618,7 @@
       if(label === '带单首页') $('.nav-btn[data-view="market"]').click();
       if(label === '信息流') $('.nav-btn[data-view="intel"]').click();
       if(label === '我的跟单') $('.nav-btn[data-view="manage"]').click();
-      if(label === '我的订阅'){ $('.nav-btn[data-view="manage"]').click(); setTimeout(() => { showManagePanel('subscriptionAccountsPanel'); $('#manage-view .manage-data-tabs')?.scrollIntoView({behavior:'smooth'}); }, 80); }
+      if(label === '我的关注'){ $('.nav-btn[data-view="manage"]').click(); setTimeout(() => { showManagePanel('subscriptionAccountsPanel'); $('#manage-view .manage-data-tabs')?.scrollIntoView({behavior:'smooth'}); }, 80); }
       if(label === '跟单指南') toast('跟单指南已打开');
     }));
     $$('.rail-account button').forEach(btn => btn.addEventListener('click', () => toast('资金划转面板已打开')));
@@ -1748,7 +1750,7 @@
     // Position records are kept separate from account-level copy settings.
     const managePanels = $$('#manage-view .view-main > .data-panel');
     const copyAccountPanel = managePanels.find(panel => $('.data-panel-head h2', panel)?.textContent.trim() === '我跟单的账户');
-    const subscriptionAccountsPanel = managePanels.find(panel => $('.data-panel-head h2', panel)?.textContent.trim() === '我订阅的账户');
+    const subscriptionAccountsPanel = managePanels.find(panel => $('.data-panel-head h2', panel)?.textContent.trim() === '我关注的账户');
     if(subscriptionAccountsPanel) subscriptionAccountsPanel.id = 'subscriptionAccountsPanel';
     if(copyAccountPanel && !$('#copyPositionsPanel')) copyAccountPanel.insertAdjacentHTML('afterend', `
       <section class="data-panel" id="copyPositionsPanel">
@@ -1765,7 +1767,7 @@
         </tbody></table></div>
       </section>`);
     if(copyAccountPanel) copyAccountPanel.id = 'copyAccountsPanel';
-    if(copyAccountPanel && !$('#manage-view .manage-data-tabs')) copyAccountPanel.insertAdjacentHTML('beforebegin', '<nav class="manage-data-tabs"><button class="manage-data-tab active" data-manage-panel="copyAccountsPanel">我跟单的账户</button><button class="manage-data-tab" data-manage-panel="copyPositionsPanel">跟单仓位</button><button class="manage-data-tab" data-manage-panel="subscriptionAccountsPanel">订阅账户</button></nav>');
+    if(copyAccountPanel && !$('#manage-view .manage-data-tabs')) copyAccountPanel.insertAdjacentHTML('beforebegin', '<nav class="manage-data-tabs"><button class="manage-data-tab active" data-manage-panel="copyAccountsPanel">我跟单的账户</button><button class="manage-data-tab" data-manage-panel="copyPositionsPanel">跟单仓位</button><button class="manage-data-tab" data-manage-panel="subscriptionAccountsPanel">关注账户</button></nav>');
     const managePanelIds = ['copyAccountsPanel','copyPositionsPanel','subscriptionAccountsPanel'];
     function showManagePanel(target){
       $$('.manage-data-tab').forEach(tab => tab.classList.toggle('active', tab.dataset.managePanel === target));
@@ -1897,17 +1899,58 @@
     $$('.manageStop').forEach(btn => btn.addEventListener('click', () => {
       requestManageAction('stop',btn.closest('tr'));
     }));
+    function updateFollowSummary(){
+      const rows = $$('#subscriptionAccountsPanel tbody tr');
+      const subscribed = rows.filter(row => row.children[3]?.textContent.includes('订阅中')).length;
+      const summary = $$('#manage-view .overview-stat')[1];
+      if(!summary) return;
+      $('b',summary).textContent = rows.length;
+      $('span',summary).textContent = `已订阅 ${subscribed} · 仅关注 ${rows.length - subscribed}`;
+    }
+    function updateFollowRelation(row){
+      const subscribed = row.children[3].textContent.includes('订阅中');
+      const copying = row.dataset.copying === 'true';
+      const relationCell = row.children[4];
+      relationCell.textContent = subscribed ? (copying ? '关注+订阅+跟单' : '关注+订阅') : '仅关注';
+      relationCell.classList.toggle('status-live', subscribed && copying);
+    }
+    function renderFollowRowActions(row){
+      const actionCell = row.querySelector('.table-action');
+      const subscribed = !row.children[3].textContent.includes('未订阅');
+      actionCell.innerHTML = subscribed
+        ? '<button class="subscriptionModify">修改</button><button class="subscriptionCancel">取消订阅</button><button class="subscriptionUnfollow">取消关注</button>'
+        : '<button class="subscriptionModify">订阅设置</button><button class="subscriptionUnfollow">取消关注</button>';
+    }
     $$('#subscriptionAccountsPanel tbody tr').forEach(row => {
       const notifyCell = row.children[2];
       notifyCell.textContent = notifyCell.textContent.replace('邮件', 'App Push');
-      const actionCell = row.querySelector('.table-action');
-      actionCell.innerHTML = '<button class="subscriptionModify">修改</button><button class="subscriptionCancel">取消</button>';
+      row.dataset.copying = row.children[4].textContent.includes('跟单') ? 'true' : 'false';
+      updateFollowRelation(row);
+      renderFollowRowActions(row);
     });
     document.addEventListener('click', event => { const modify = event.target.closest('.subscriptionModify'); if(modify) openSubscriptionSettings(modify,modify.closest('tr')); });
-    $$('.subscriptionCancel').forEach(btn => btn.addEventListener('click', () => {
-      btn.closest('tr').remove();
-      toast('订阅已取消');
-    }));
+    document.addEventListener('click', event => {
+      const cancel = event.target.closest('.subscriptionCancel');
+      if(!cancel) return;
+      const row = cancel.closest('tr');
+      row.children[1].textContent = '--';
+      row.children[2].textContent = '--';
+      row.children[3].textContent = '未订阅';
+      row.children[3].classList.remove('status-live');
+      row.children[3].classList.add('status-warn');
+      updateFollowRelation(row);
+      renderFollowRowActions(row);
+      updateFollowSummary();
+      toast('已取消订阅，仍保留关注');
+    });
+    document.addEventListener('click', event => {
+      const unfollow = event.target.closest('.subscriptionUnfollow');
+      if(!unfollow) return;
+      unfollow.closest('tr').remove();
+      updateFollowSummary();
+      toast('已取消关注');
+    });
+    updateFollowSummary();
     $$('.period-tabs button').forEach(btn => btn.addEventListener('click', () => { $$('.period-tabs button').forEach(b => b.classList.toggle('active', b === btn)); toast(`已切换至${btn.textContent}数据`); }));
     $$('.detail-period-bar button').forEach(btn => btn.addEventListener('click', () => {
       $$('.detail-period-bar button').forEach(b => b.classList.toggle('active', b === btn));
