@@ -288,7 +288,7 @@
     .size-mode-btn { height:32px; border:0; background:transparent; color:var(--muted); border-radius:3px; cursor:pointer; }
     .size-mode-btn.active { background:var(--surface-3); color:var(--text); }
     .size-mode-description { margin:-5px 0 14px; color:var(--muted); font-size:10px; line-height:1.55; }
-    .fixed-size-field,.ratio-size-field { width:100%; max-width:none; grid-column:1 / -1; }
+    .fixed-size-field,.fixed-investment-field,.ratio-size-field { width:100%; max-width:none; grid-column:1 / -1; }
     .field { margin-bottom:14px; }
     .field label { display:flex; justify-content:space-between; color:var(--soft); font-size:11px; margin-bottom:7px; }
     .field label span { color:var(--muted); }
@@ -1274,7 +1274,9 @@
     let copySettingsSections = $$('.copy-settings-content > .settings-section', modal);
     let copyAvailableBalance = 12680.42;
     let contractAvailableBalance = 24600;
-    const copyAmountFields = $$('.fixed-size-field, .ratio-size-field', modal);
+    const fixedSizeField = $('.fixed-size-field', modal);
+    fixedSizeField?.insertAdjacentHTML('afterend', '<div class="setting-field fixed-investment-field"><label>投入金额 <span>USDC</span></label><input type="number" value="5000" min="10"></div>');
+    const copyAmountFields = $$('.fixed-investment-field, .ratio-size-field', modal);
     copyAmountFields.forEach(field => field.insertAdjacentHTML('beforeend', '<div class="copy-available-balance"><span>可用余额</span><strong><b class="copy-balance-value">12,680.42</b><span>USDC</span></strong></div><div class="copy-balance-error" hidden aria-live="polite"><span><i data-lucide="circle-alert"></i><b class="copy-balance-error-text"></b></span><button type="button" class="copy-transfer-shortcut">划转</button></div>'));
     const ratioSizeField = $('.ratio-size-field', modal);
     if(ratioSizeField){
@@ -1422,8 +1424,8 @@
     $('.size-mode-switch', modal)?.insertAdjacentHTML('afterend', '<p class="size-mode-description" id="sizeModeDescription">交易员每次开仓时，按你设置的固定金额执行跟单。</p>');
     $$('.size-mode-btn').forEach(btn => btn.addEventListener('click', () => {
       $$('.size-mode-btn').forEach(b => b.classList.toggle('active', b === btn));
-      $('.fixed-size-field').hidden = btn.dataset.sizeMode !== 'fixed';
-      $('.ratio-size-field').hidden = btn.dataset.sizeMode !== 'ratio';
+      $$('.fixed-size-field, .fixed-investment-field', modal).forEach(field => { field.hidden = btn.dataset.sizeMode !== 'fixed'; });
+      $('.ratio-size-field', modal).hidden = btn.dataset.sizeMode !== 'ratio';
       $('#sizeModeDescription').textContent = btn.dataset.sizeMode === 'fixed'
         ? '交易员每次开仓时，按你设置的固定金额执行跟单。'
         : '输入计划投入的总金额，系统按交易员每笔仓位占比在该资金范围内跟单。';
